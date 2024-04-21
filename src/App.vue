@@ -6,14 +6,16 @@
       <h2 class="board__title">Выполнено</h2>
     </div>
     <div class="board__column board__desk--wrapper">
-      <ul class="board__desk">
+      <ul v-for="column in taskColumns" :key="column" class="board__desk">
         <li
-          v-for="(task, idx) in toImplementationTasks"
+          v-for="(task, idx) in renderTask(column)"
           :key="task.id"
           class="board__task"
-          :class="
-            task.type === 'Задача' ? 'board__task_blue' : 'board__task_red'
-          "
+          :class="{
+            board__task_blue: task.type === 'Задача',
+            board__task_red: task.type === 'Баг',
+            board__task_completed: column === 'Выполнено',
+          }"
         >
           <div class="board__wrapper-desk">
             <h3 class="board__task-title">{{ task.name }}</h3>
@@ -26,8 +28,9 @@
               <option value="В работе">В работе</option>
               <option value="Выполнено">Выполнено</option>
             </select>
+            <b v-if="column === 'Выполнено'">Завершено</b>
           </div>
-          <div>
+          <div class="board__wrapper_btn">
             <button class="board__changeTask btn" @click="editTask(idx)">
               ..
             </button>
@@ -37,63 +40,11 @@
           </div>
         </li>
       </ul>
-
-      <ul class="board__desk">
-        <li
-          v-for="task in inWorkTasks"
-          :key="task.id"
-          class="board__task"
-          :class="
-            task.type === 'Задача' ? 'board__task_blue' : 'board__task_red'
-          "
-        >
-          <div class="board__wrapper">
-            <h3 class="board__task-title">{{ task.name }}</h3>
-            <p>{{ task.desk }}</p>
-            <p>{{ task.deadline }}</p>
-            <p>{{ task.user }}</p>
-
-            <select name="" id="" v-model="task.status">
-              <option value="К выполнению">К выполнению</option>
-              <option value="В работе">В работе</option>
-              <option value="Выполнено">Выполнено</option>
-            </select>
-          </div>
-          <button class="board__deleteTask btn">X</button>
-        </li>
-      </ul>
-
-      <ul class="board__desk">
-        <li
-          v-for="task in completedTasks"
-          :key="task.id"
-          class="board__task"
-          :class="
-            task.type === 'Задача' ? 'board__task_blue' : 'board__task_red'
-          "
-        >
-          <div class="board__wrapper">
-            <h3 class="board__task-title">{{ task.name }}</h3>
-            <p>{{ task.desk }}</p>
-            <p>{{ task.deadline }}</p>
-            <p>{{ task.user }}</p>
-
-            <select name="" id="" v-model="task.status">
-              <option value="К выполнению">К выполнению</option>
-              <option value="В работе">В работе</option>
-              <option value="Выполнено">Выполнено</option>
-            </select>
-          </div>
-          <button class="board__deleteTask btn">X</button>
-        </li>
-      </ul>
     </div>
     <button class="board__btn btn" @click="toggleForm()">Создать задачу</button>
     <button class="board__btn btn" @click="clearTasks()">Очистить</button>
     <button class="form__btn btn" @click="console.log(tasks)">tasks</button>
   </div>
-
-
 
   <div class="form" v-if="isOpenForm">
     <div class="form__wrapper">
@@ -126,7 +77,7 @@
           max="2026-12-31"
         />
       </p>
-      <!-- <p>sdbfdsmbnf</p> -->
+
       <div class="form__select--wrapper">
         <select class="form__select" name="select" v-model="task.type">
           <option value="Задача" selected>Задача</option>
@@ -144,13 +95,9 @@
         <button class="form__btn btn" @click="сancelForm()">Отменить</button>
       </div>
     </div>
-    <div class="form__overloy">
-
-    </div>
+    <div class="form__overloy"></div>
   </div>
 </template>
-
-
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
@@ -169,20 +116,16 @@ interface Task {
 
 let tasks = ref<Array<Task>>(JSON.parse(localStorage.getItem("myform")) || []);
 
+const taskColumns = ["К выполнению", "В работе", "Выполнено"];
+
 const isOpenForm = ref(false);
 const newData = new Date().toISOString().slice(0, 10);
 
-const toImplementationTasks = computed(() => {
-  return tasks.value.filter((task) => task.status === "К выполнению");
-});
+function renderTask(column) {
+  return tasks.value.filter((task) => task.status === column);
+}
 
-const inWorkTasks = computed(() => {
-  return tasks.value.filter((task) => task.status === "В работе");
-});
-
-const completedTasks = computed(() => {
-  return tasks.value.filter((task) => task.status === "Выполнено");
-});
+let currentTaskIdx = 0;
 
 const initTask: Task = {
   name: "",
@@ -208,12 +151,12 @@ function toggleForm() {
 
 function createTask() {
   task.value = { ...initTask };
-  if(initTask.isEdit) {
-    const index = tasks.value.indexOf(task.value);
-    console.log(index);
-    tasks.value.push(task.value);
-  }
 
+  initTask.isEdit
+    ? tasks.value.splice(currentTaskIdx, 1, task.value)
+    : tasks.value.push(task.value);
+
+  initTask.id++;
   task.value.isEdit = false;
   task = ref(initTask);
   сancelForm();
@@ -227,17 +170,16 @@ function removeTask(idx) {
 
 function editTask(idx) {
   toggleForm();
-  task.value.name = tasks.value[idx].name;
-  task.value.desk = tasks.value[idx].desk;
-  task.value.deadline = tasks.value[idx].deadline;
-  task.value.type = tasks.value[idx].type;
-  task.value.user = tasks.value[idx].user;
-  task.value.user = tasks.value[idx].user;
-  task.value.status = tasks.value[idx].status;
+  for (let key in task.value) {
+    task.value[key] = tasks.value[idx][key];
+  }
+
   task.value.isEdit = true;
+  currentTaskIdx = idx;
 }
 
 function сancelForm() {
+  task.value.isEdit = false;
   toggleForm();
   claerForm();
 }

@@ -48,6 +48,11 @@
     background-color: rgb(236, 58, 58);
     list-style: none;
   }
+
+  &_completed p {
+    text-decoration: line-through;
+    
+  }
 }
 
 .board__task {
@@ -61,10 +66,16 @@
   padding-left: 10px;
 }
 
+.board__wrapper_btn {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+}
+
 .board__deleteTask {
   width: 25px;
   height: 25px;
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .board__changeTask {
