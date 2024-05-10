@@ -1,51 +1,53 @@
-<!-- <template>
-  <div class="form" v-if="isOpenForm">
-    <h2 class="form__title">Форма</h2>
-    <p class="form__desc">
-      Название задачи: <br />
-      <input
-        class="form__input"
-        type="text"
-        placeholder=""
+<template>
+  <h2 class="form__title">Форма</h2>
+  <p class="form__desc">
+    Название задачи: <br />
+    <input
+      v-model="task.name"
+      class="form__input"
+      type="text"
+      placeholder="Покормить кота"
+    />
+  </p>
+  <p class="form__desc">
+    Описание: <br />
+    <input
+      v-model="task.desk"
+      class="form__input"
+      type="text"
+      placeholder="Дать рыбку в обед"
+    />
+  </p>
+  <p class="form__desc">
+    Дедлайн: <br />
+    <input
+      v-model="task.deadline"
+      class="form__input"
+      type="date"
+      max="2026-12-31"
+    />
+  </p>
 
-      />
-    </p>
-    <p class="form__desc">
-      Описание: <br />
-      <input
-        class="form__input"
-        type="text"
-        placeholder=""
-      />
-    </p>
-    <p class="form__desc">
-      Дедлайн: <br />
-      <input class="form__input" type="text" placeholder="" />
-    </p>
-    <div class="form__select--wrapper">
-      <select class="form__select" name="select">
-        <option value="">Задача</option>
-        <option value="">Баг</option>
-      </select>
 
-      <select class="form__select" name="select">
-        <option value="">User1</option>
-        <option value="">User2</option>
-        <option value="">User3</option>
-      </select>
-    </div>
-    <div class="form__btn--wrapper">
-      <button class="form__btn btn">Создать</button>
-      <button class="form__btn btn">Отменить</button>
-    </div>
-  </div>
+        <select class="form__select" name="select" v-model="task.type">
+          <option value="Задача">Задача</option>
+          <option value="Баг">Баг</option>
+        </select>
+
+        <select class="form__select" name="select" v-model="task.user">
+          <option value="Не назначен">Не назначен</option>
+          <option value="Johnny Depp">Johnny Depp</option>
+          <option value="Leonardo DiCaprio">Leonardo DiCaprio</option>
+          <option value="Beb Affleck">Ben Affleck</option>
+        </select>
 </template>
 
-
 <script setup lang="ts">
-  interface Props {
-    isOpenForm: boolean
-  }
+import { Task } from "@/types";
 
-  defineProps<Props>()
-</script> -->
+const props = defineProps<{
+  task: Task;
+}>();
+
+
+</script>

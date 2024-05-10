@@ -15,49 +15,25 @@
     <div class="board__column board__desk--wrapper">
       <ul v-for="column in taskColumns" :key="column" class="board__desk">
         <li
-          v-for="task in renderTask(column)"
-          :key="task.id"
+          v-for="taskItem in renderTask(column)"
+          :key="taskItem.id"
           :class="{
             board__task: true,
-            board__task_blue: task.type === 'Задача',
-            board__task_red: task.type === 'Баг',
+            board__task_blue: taskItem.type === 'Задача',
+            board__task_red: taskItem.type === 'Баг',
             board__task_completed: column === 'Выполнено',
           }"
         >
-          <div class="board__task_wrapper">
-            <h3 class="board__task_title">{{ task.name }}</h3>
-            <p class="board__task_desk">{{ task.desk }}</p>
-            <div class="board__task_deadline_wrapper">
-              <p
-                :class="{
-                  board__task_deadline: true,
-                  board__task_deadline_end: (Date.parse(task.deadline) + 86400000) < new Date().getTime() && column !== 'Выполнено',
-                }"
-              >
-                {{ task.deadline }}
-              </p>
-              <b v-if="column === 'Выполнено'" class="board__task_ready">
-                Завершено
-              </b>
-            </div>
-            <p class="board__task_user">{{ task.user }}</p>
+          <AppTask :task="taskItem" :column="column" @edited="onTaskEdited" />
 
-            <select
-              name=""
-              id=""
-              v-model="task.status"
-              class="board__task_status"
-            >
-              <option value="К выполнению">К выполнению</option>
-              <option value="В работе">В работе</option>
-              <option value="Выполнено">Выполнено</option>
-            </select>
-          </div>
           <div class="board__task_wrapper_btn">
-            <button class="board__task_change btn" @click="editTask(task)">
+            <button class="board__task_change btn" @click="editTask(taskItem)">
               ..
             </button>
-            <button class="board__task_delete btn" @click="removeTask(task)">
+            <button
+              class="board__task_delete btn"
+              @click="removeTask(taskItem)"
+            >
               Х
             </button>
           </div>
@@ -68,48 +44,9 @@
 
   <div class="form" v-if="isOpenForm">
     <div class="form__wrapper">
-      <h2 class="form__title">Форма</h2>
-      <p class="form__desc">
-        Название задачи: <br />
-        <input
-          v-model="task.name"
-          class="form__input"
-          type="text"
-          placeholder="Покормить кота"
-        />
-      </p>
-      <p class="form__desc">
-        Описание: <br />
-        <input
-          v-model="task.desk"
-          class="form__input"
-          type="text"
-          placeholder="Дать рыбку в обед"
-        />
-      </p>
-      <p class="form__desc">
-        Дедлайн: <br />
-        <input
-          v-model="task.deadline"
-          class="form__input"
-          type="date"
-          max="2026-12-31"
-        />
-      </p>
+      <AppForm :task="task" />
 
-      <div class="form__select--wrapper">
-        <select class="form__select" name="select" v-model="task.type">
-          <option value="Задача">Задача</option>
-          <option value="Баг">Баг</option>
-        </select>
-
-        <select class="form__select" name="select" v-model="task.user">
-          <option value="Не назначен">Не назначен</option>
-          <option value="Johnny Depp">Johnny Depp</option>
-          <option value="Leonardo DiCaprio">Leonardo DiCaprio</option>
-          <option value="Beb Affleck">Ben Affleck</option>
-        </select>
-      </div>
+      <div class="form__select--wrapper"></div>
       <div class="form__btn--wrapper">
         <button class="form__btn btn" @click="createTask()">Создать</button>
         <button class="form__btn btn" @click="сancelForm()">Отменить</button>
@@ -119,23 +56,12 @@
   </div>
 </template>
 
-
-
-
 <script setup lang="ts">
 import { ref, watch } from "vue";
-// import AppForm from "./components/AppForm.vue";
-// import AppBoard from "./components/AppForm.vue";
-interface Task {
-  name: string;
-  desk: string;
-  deadline: string,
-  type: string;
-  user: string;
-  status: string;
-  id: number;
-  isEdit: boolean;
-}
+import AppTask from "./components/AppTask.vue";
+import AppForm from "./components/AppForm.vue";
+
+import { Task } from "./types";
 
 const initTask: Task = {
   name: "",
@@ -144,7 +70,7 @@ const initTask: Task = {
   type: "Задача",
   user: "Не назначен",
   status: "К выполнению",
-  id: 0,
+  id: +localStorage.getItem("taskId") || 0,
   isEdit: false,
 };
 
@@ -207,16 +133,25 @@ function claerForm(): void {
   task.value.desk = "";
 }
 
-function updateStorage(): void {
-  let storageTasks = JSON.parse(localStorage.getItem("myform"));
-  if (!storageTasks) storageTasks = tasks.value;
+function onTaskEdited(payload: { updatedTask: Task }) {
+  // console.log("onTaskEdited >>>", JSON.parse(JSON.stringify(payload)));
 
-  storageTasks = JSON.parse(JSON.stringify(tasks));
+  const idx = tasks.value.findIndex(
+    (task) => task.id === payload.updatedTask.id
+  );
+  tasks.value.splice(idx, 1, payload.updatedTask);
+}
+
+function updateStorage(): void {
+  // let storageTasks = JSON.parse(localStorage.getItem("myform"));
+  // if (!storageTasks) storageTasks = tasks.value;
+
+  // storageTasks = JSON.parse(JSON.stringify(tasks));
   localStorage.setItem("myform", JSON.stringify(tasks.value));
+  localStorage.setItem("taskId", JSON.stringify(initTask.id));
 }
 
 watch(tasks.value, () => {
   updateStorage();
 });
-
 </script>
