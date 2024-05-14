@@ -7,53 +7,39 @@
       </button>
       <button class="board__btn btn" @click="clearTasks()">Очистить</button>
     </div>
-    <div class="board__column board__title--wrapper">
-      <h2 class="board__title">К выполнению</h2>
-      <h2 class="board__title">В работе</h2>
-      <h2 class="board__title">Выполнено</h2>
-    </div>
-    <div class="board__column board__desk--wrapper">
-      <ul v-for="column in taskColumns" :key="column" class="board__desk">
-        <li
-          v-for="taskItem in renderTask(column)"
-          :key="taskItem.id"
-          :class="{
-            board__task: true,
-            board__task_blue: taskItem.type === 'Задача',
-            board__task_red: taskItem.type === 'Баг',
-            board__task_completed: column === 'Выполнено',
-          }"
-        >
-          <AppTask :task="taskItem" :column="column" @edited="onTaskEdited" />
-
-          <div class="board__task_wrapper_btn">
-            <button class="board__task_change btn" @click="editTask(taskItem)">
-              ..
-            </button>
-            <button
-              class="board__task_delete btn"
-              @click="removeTask(taskItem)"
-            >
-              Х
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <ul class="board__desk--wrapper">
+      <li v-for="column in taskColumns" :key="column" class="board__column">
+        <h2 class="board__title">{{ column }}</h2>
+        <ul class="board__desk">
+          <li
+            v-for="taskItem in renderTask(column)"
+            :key="taskItem.id"
+            :class="{
+              board__task: true,
+              board__task_blue: taskItem.type === 'Задача',
+              board__task_red: taskItem.type === 'Баг',
+              board__task_completed: column === 'Выполнено',
+            }"
+          >
+            <AppTask
+              :task="taskItem"
+              :column="column"
+              @edited="onTaskEdited"
+              @edited-task="editTask(taskItem)"
+              @removed-task="removeTask(taskItem)"
+            />
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 
-  <div class="form" v-if="isOpenForm">
-    <div class="form__wrapper">
-      <AppForm :task="task" />
-
-      <div class="form__select--wrapper"></div>
-      <div class="form__btn--wrapper">
-        <button class="form__btn btn" @click="createTask()">Создать</button>
-        <button class="form__btn btn" @click="сancelForm()">Отменить</button>
-      </div>
-    </div>
-    <div class="form__overloy"></div>
-  </div>
+  <AppForm
+    v-if="isOpenForm"
+    :task="task"
+    @created-task="createTask"
+    @closer-form="сancelForm"
+  />
 </template>
 
 <script setup lang="ts">

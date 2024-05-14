@@ -29,6 +29,11 @@
       </option>
     </select>
   </div>
+
+  <div class="board__task_wrapper_btn">
+    <button class="board__task_change btn" @click="editedTask(task)">..</button>
+    <button class="board__task_delete btn" @click="removedTask(task)">Х</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -46,11 +51,15 @@ const emit = defineEmits<{
       updatedTask: Task;
     }
   ): void;
+  (e: "editedTask"): void;
+  (e: "removedTask"): void;
 }>();
 
 const changeStatus = (e: Event) => {
-  const value = (e.target as unknown as { value: string }).value;
-//   console.log("changeStatus >>>", value);
+//   const value = (e.target as unknown as { value: string }).value;
+const value = (e.target as HTMLInputElement).value;
+
+  //   console.log("changeStatus >>>", value);
   const updatedTask = {
     ...props.task,
     status: value,
@@ -59,5 +68,13 @@ const changeStatus = (e: Event) => {
   emit("edited", {
     updatedTask,
   });
+};
+
+const editedTask = (task: Task): void => {
+  emit("editedTask", task);
+};
+
+const removedTask = (task: Task): void => {
+  emit("removedTask", task);
 };
 </script>

@@ -40,27 +40,31 @@ $color-border: rgb(78, 67, 67);
   width: 250px;
 }
 
-.board__column {
+.board__desk--wrapper {
+  margin: 0;
+  padding: 0 25px 0 25px;
   display: flex;
-  justify-content: space-between;
-  
+  justify-content: center;
+}
+
+
+.board__column {
+  width: 100%;
+  list-style: none;
+  background-color: bisque;
+  border: 2px solid $color-border;
 }
 
 .board__title {
-  width: 100%;
   padding: 10px;
   margin: 0;
   text-align: center;
-  border: 2px solid $color-border;
+  border-bottom: 4px solid $color-border;
 }
 
 .board__desk {
-  width: 100%;
-  padding: 10px;
-  margin: 0;
-  border: 2px solid $color-border;
+  padding: 15px;
   min-height: 200px;
-  
 }
 
 .board__task {
@@ -70,6 +74,7 @@ $color-border: rgb(78, 67, 67);
   justify-content: space-between;
   margin-bottom: 10px;
   border-radius: 5px;
+  position: relative;
   
   &_blue {
     background-color: rgb(85, 108, 243);
@@ -89,10 +94,15 @@ $color-border: rgb(78, 67, 67);
     padding-left: 10px;
   }
 
+
   &_wrapper_btn {
     display: flex;
     justify-content: space-between;
     margin: 5px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
   }
 
   &_delete {
@@ -216,4 +226,8 @@ $color-border: rgb(78, 67, 67);
   border-radius: 10px;
   height: 30px;
   width: 200px;
+}
+
+@media screen and (max-width: 770px) {
+  
 }
