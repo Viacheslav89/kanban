@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { Task } from "@/types";
+import { Task } from '../types';
 
 const props = defineProps<{
   task: Task;
