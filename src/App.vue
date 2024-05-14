@@ -56,11 +56,14 @@ const initTask: Task = {
   type: "Задача",
   user: "Не назначен",
   status: "К выполнению",
-  id: +localStorage.getItem("taskId") || 0,
+  // id: +localStorage.getItem("taskId") || 0,
+  id: 0,
   isEdit: false,
 };
 
-let tasks = ref<Array<Task>>(JSON.parse(localStorage.getItem("myform")) || []);
+// let tasks = ref<Array<Task>>(JSON.parse(localStorage.getItem("myform")) || []);
+let tasks = ref<Array<Task>>([]);
+
 
 const taskColumns = ["К выполнению", "В работе", "Выполнено"];
 const isOpenForm = ref(false);
@@ -99,9 +102,9 @@ function removeTask(currentTask: Task): void {
 }
 
 function editTask(currentTask: Task): void {
-  for (let key in task.value) {
-    task.value[key] = currentTask[key];
-  }
+  // for (let key in task.value) {
+    // task.value[key] = currentTask[key]; 1111111
+  // }
 
   task.value.isEdit = true;
   currentTaskIdx = tasks.value.indexOf(currentTask);

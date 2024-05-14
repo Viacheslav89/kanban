@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { Task } from '../types';
 
-const props = defineProps<{
+defineProps<{
   task: Task;
 }>();
 

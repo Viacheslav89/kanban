@@ -30,10 +30,10 @@
     </select>
   </div>
 
-  <div class="board__task_wrapper_btn">
+  <!-- <div class="board__task_wrapper_btn">
     <button class="board__task_change btn" @click="editedTask(task)">..</button>
     <button class="board__task_delete btn" @click="removedTask(task)">Х</button>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
@@ -70,11 +70,11 @@ const value = (e.target as HTMLInputElement).value;
   });
 };
 
-const editedTask = (task: Task): void => {
-  emit("editedTask", task);
-};
+// const editedTask = (task: Task): void => {
+//   emit("editedTask", task);
+// };
 
-const removedTask = (task: Task): void => {
-  emit("removedTask", task);
-};
+// const removedTask = (task: Task): void => {
+//   emit("removedTask", task);
+// };
 </script>
