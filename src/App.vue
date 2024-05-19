@@ -56,14 +56,12 @@ const initTask: Task = {
   type: "Задача",
   user: "Не назначен",
   status: "К выполнению",
-  // id: +localStorage.getItem("taskId") || 0,
-  id: 0,
+  id: +(localStorage.getItem("taskId") || 0),
   isEdit: false,
 };
 
-// let tasks = ref<Array<Task>>(JSON.parse(localStorage.getItem("myform")) || []);
-let tasks = ref<Array<Task>>([]);
-
+const myForm = localStorage.getItem("myform");
+let tasks = ref<Array<Task>>(myForm !== null ? JSON.parse(myForm) : []);
 
 const taskColumns = ["К выполнению", "В работе", "Выполнено"];
 const isOpenForm = ref(false);
@@ -102,9 +100,9 @@ function removeTask(currentTask: Task): void {
 }
 
 function editTask(currentTask: Task): void {
-  // for (let key in task.value) {
-    // task.value[key] = currentTask[key]; 1111111
-  // }
+  for (let key in task.value) {
+    task.value[key] = currentTask[key];
+  }
 
   task.value.isEdit = true;
   currentTaskIdx = tasks.value.indexOf(currentTask);
@@ -123,8 +121,6 @@ function claerForm(): void {
 }
 
 function onTaskEdited(payload: { updatedTask: Task }) {
-  // console.log("onTaskEdited >>>", JSON.parse(JSON.stringify(payload)));
-
   const idx = tasks.value.findIndex(
     (task) => task.id === payload.updatedTask.id
   );
@@ -132,10 +128,6 @@ function onTaskEdited(payload: { updatedTask: Task }) {
 }
 
 function updateStorage(): void {
-  // let storageTasks = JSON.parse(localStorage.getItem("myform"));
-  // if (!storageTasks) storageTasks = tasks.value;
-
-  // storageTasks = JSON.parse(JSON.stringify(tasks));
   localStorage.setItem("myform", JSON.stringify(tasks.value));
   localStorage.setItem("taskId", JSON.stringify(initTask.id));
 }

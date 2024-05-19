@@ -1,4 +1,5 @@
 export interface Task {
+  [index: string]: any;
     name: string;
     desk: string;
     deadline: string;

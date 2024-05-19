@@ -30,10 +30,10 @@
     </select>
   </div>
 
-  <!-- <div class="board__task_wrapper_btn">
-    <button class="board__task_change btn" @click="editedTask(task)">..</button>
-    <button class="board__task_delete btn" @click="removedTask(task)">Х</button>
-  </div> -->
+  <div class="board__task_wrapper_btn">
+    <button class="board__task_change btn" @click="editedTask">..</button>
+    <button class="board__task_delete btn" @click="removedTask">Х</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -56,10 +56,8 @@ const emit = defineEmits<{
 }>();
 
 const changeStatus = (e: Event) => {
-//   const value = (e.target as unknown as { value: string }).value;
 const value = (e.target as HTMLInputElement).value;
 
-  //   console.log("changeStatus >>>", value);
   const updatedTask = {
     ...props.task,
     status: value,
@@ -70,11 +68,11 @@ const value = (e.target as HTMLInputElement).value;
   });
 };
 
-// const editedTask = (task: Task): void => {
-//   emit("editedTask", task);
-// };
+const editedTask = (): void => {
+  emit("editedTask");
+};
 
-// const removedTask = (task: Task): void => {
-//   emit("removedTask", task);
-// };
+const removedTask = (): void => {
+  emit("removedTask");
+};
 </script>
