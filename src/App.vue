@@ -136,3 +136,133 @@ watch(tasks.value, () => {
   updateStorage();
 });
 </script>
+
+
+
+
+<style lang="scss">
+$color-border: rgb(78, 67, 67);
+
+.board {
+  border-collapse: collapse;
+}
+
+.kanban_title {
+  margin: 20px auto 10px auto;
+  width: 250px;
+  font-size: 38px;
+  color: rgb(59, 51, 51);
+}
+
+.board__btn_wrapper {
+  width: 510px;
+  padding: 10px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgb(241, 244, 248) 30%,
+    rgb(149, 159, 167) 100%
+  );
+  color: black;
+  cursor: pointer;
+  border: 2px solid $color-border;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.board__btn {
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  height: 35px;
+  width: 250px;
+}
+
+.board__desk--wrapper {
+  margin: 0;
+  padding: 0 25px 0 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.board__column {
+  width: 100%;
+  list-style: none;
+  background-color: bisque;
+  border: 2px solid $color-border;
+}
+
+.board__title {
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  border-bottom: 4px solid $color-border;
+}
+
+.board__desk {
+  padding: 15px;
+  min-height: 200px;
+}
+
+.board__task {
+  background-color: rgb(132, 132, 218);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  position: relative;
+
+  &_blue {
+    background-color: rgb(85, 108, 243);
+    list-style: none;
+  }
+
+  &_red {
+    background-color: rgb(236, 58, 58);
+    list-style: none;
+  }
+
+  &_completed &_title,
+  &_completed &_desk {
+    text-decoration: line-through;
+  }
+}
+
+
+@media screen and (max-width: 770px) {
+  .board__btn_wrapper {
+    width: 400px;
+  }
+
+  .board__title {
+    font-size: 20px;
+}
+}
+
+@media screen and (max-width: 550px) {
+  .kanban_title {
+    width: 205px;
+    font-size: 32px;
+  }
+
+  .board__btn_wrapper {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 361px) {
+
+}
+
+
+</style>

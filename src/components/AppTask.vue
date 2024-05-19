@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { Task } from '../types';
+import { Task } from "../types";
 
 const props = defineProps<{
   task: Task;
@@ -56,7 +56,7 @@ const emit = defineEmits<{
 }>();
 
 const changeStatus = (e: Event) => {
-const value = (e.target as HTMLInputElement).value;
+  const value = (e.target as HTMLInputElement).value;
 
   const updatedTask = {
     ...props.task,
@@ -76,3 +76,73 @@ const removedTask = (): void => {
   emit("removedTask");
 };
 </script>
+
+<style lang="scss">
+.board__task {
+  &_wrapper {
+    padding-left: 10px;
+  }
+
+  &_wrapper_btn {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  &_delete {
+    width: 25px;
+    height: 25px;
+    margin-left: 3px;
+  }
+
+  &_change {
+    width: 25px;
+    height: 25px;
+  }
+
+  &_deadline_wrapper {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_deadline {
+    margin: 0;
+    padding: 0;
+  }
+
+  &_ready {
+    margin: 0;
+    margin-left: 15px;
+    padding: 0;
+    color: rgb(137, 240, 96);
+    font-size: 18px;
+  }
+
+  &_deadline_end {
+    background-color: rgb(128, 33, 33);
+    padding: 5px;
+    border-radius: 7px;
+  }
+
+  &_status {
+    margin-bottom: 8px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    background: linear-gradient(
+      90deg,
+      rgb(241, 244, 248) 30%,
+      rgb(149, 159, 167) 100%
+    );
+  }
+}
+
+@media screen and (max-width: 361px) {
+  
+}
+</style>
