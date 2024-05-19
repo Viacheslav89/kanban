@@ -250,6 +250,10 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 550px) {
+  .board__title {
+    font-size: 17px;
+}
+
   .kanban_title {
     width: 205px;
     font-size: 32px;
@@ -261,7 +265,9 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 361px) {
-
+  .board__title {
+    font-size: 14px;
+}
 }
 
 

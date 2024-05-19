@@ -134,15 +134,59 @@ const removedTask = (): void => {
     border: 1px solid black;
     border-radius: 5px;
     padding: 2px;
+    width: auto;
     background: linear-gradient(
       90deg,
       rgb(241, 244, 248) 30%,
       rgb(149, 159, 167) 100%
     );
+    
   }
 }
 
-@media screen and (max-width: 361px) {
-  
+@media screen and (max-width: 565px) {
+  .board__task {
+    font-size: 12px;
+
+
+    &_delete {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  &_change {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  &_status {
+    width: 100px;
+  }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .board__task {
+    font-size: 12px;
+
+
+    &_delete {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  &_change {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  &_status {
+    width: auto;
+  }
+  }
 }
 </style>
