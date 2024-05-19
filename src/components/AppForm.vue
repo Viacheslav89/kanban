@@ -162,7 +162,7 @@ const closerForm = () => {
 
 @media screen and (max-width: 620px) {
   .form__wrapper {
-    width: 480px;
+    width: 481px;
     margin: -215px 0 0 -260px;
   }
 }
