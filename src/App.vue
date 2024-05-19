@@ -5,7 +5,7 @@
       <button class="board__btn btn" @click="toggleForm()">
         Создать задачу
       </button>
-      <button class="board__btn btn" @click="clearTasks()">Очистить</button>
+      <button class="board__btn btn" @click="clearTasks()">Очиститть</button>
     </div>
     <ul class="board__desk--wrapper">
       <li v-for="column in taskColumns" :key="column" class="board__column">
