@@ -137,9 +137,6 @@ watch(tasks.value, () => {
 });
 </script>
 
-
-
-
 <style lang="scss">
 $color-border: rgb(78, 67, 67);
 
@@ -152,6 +149,7 @@ $color-border: rgb(78, 67, 67);
   width: 250px;
   font-size: 38px;
   color: rgb(59, 51, 51);
+  white-space: nowrap;
 }
 
 .board__btn_wrapper {
@@ -238,21 +236,21 @@ $color-border: rgb(78, 67, 67);
   }
 }
 
-
 @media screen and (max-width: 770px) {
   .board__btn_wrapper {
     width: 400px;
   }
 
   .board__title {
-    font-size: 20px;
-}
+    font-size: 18px;
+  }
 }
 
 @media screen and (max-width: 550px) {
   .board__title {
-    font-size: 17px;
-}
+    font-size: 13px;
+    white-space: nowrap;
+  }
 
   .kanban_title {
     width: 205px;
@@ -266,9 +264,7 @@ $color-border: rgb(78, 67, 67);
 
 @media screen and (max-width: 361px) {
   .board__title {
-    font-size: 14px;
+    font-size: 10px;
+  }
 }
-}
-
-
 </style>

@@ -153,6 +153,7 @@ const removedTask = (): void => {
     width: 20px;
     height: 20px;
     font-size: 9px;
+    margin-left: 2px;
   }
 
   &_change {
@@ -162,30 +163,31 @@ const removedTask = (): void => {
   }
 
   &_status {
-    width: 100px;
+    width: 90px;
   }
   }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 490px) {
   .board__task {
     font-size: 12px;
 
 
     &_delete {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     font-size: 9px;
+    margin-left: 0;
   }
 
   &_change {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     font-size: 9px;
   }
 
   &_status {
-    width: auto;
+    width: 70px;
   }
   }
 }
