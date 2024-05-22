@@ -173,4 +173,25 @@ const closerForm = () => {
     margin: -215px 0 0 -235px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .form__wrapper {
+    width: 390px;
+    margin: -215px 0 0 -215px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .form__wrapper {
+    width: 390px;
+    margin: -215px 0 0 -195px;
+  }
+}
+
+@media screen and (max-width: 361px) {
+  .form__wrapper {
+    width: 390px;
+    margin: -215px 0 0 -185px;
+  }
+}
 </style>

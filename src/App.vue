@@ -1,6 +1,6 @@
 <template>
   <div class="board">
-    <h1 class="kanban_title">Kanban boardd</h1>
+    <h1 class="kanban_title">Kanban board</h1>
     <div class="board__btn_wrapper">
       <button class="board__btn btn" @click="toggleForm()">
         Создать задачу
