@@ -52,9 +52,6 @@
   </div>
 </template>
 
-
-
-
 <script setup lang="ts">
 import { Task } from "../types";
 
@@ -75,10 +72,6 @@ const closerForm = () => {
   emit("closerForm");
 };
 </script>
-
-
-
-
 
 <style lang="scss">
 .form {
@@ -152,7 +145,6 @@ const closerForm = () => {
   width: 200px;
 }
 
-
 @media screen and (max-width: 770px) {
   .form__wrapper {
     width: 530px;
@@ -176,22 +168,22 @@ const closerForm = () => {
 
 @media screen and (max-width: 480px) {
   .form__wrapper {
-    width: 390px;
-    margin: -215px 0 0 -215px;
+    width: 350px;
+    margin: -250px 0 0 -197px;
   }
 }
 
 @media screen and (max-width: 400px) {
   .form__wrapper {
-    width: 340px;
-    margin: -215px 0 0 -195px;
+    width: 325px;
+    margin: -250px 0 0 -185px;
   }
 }
 
 @media screen and (max-width: 361px) {
   .form__wrapper {
-    width: 315px;
-    margin: -215px 0 0 -185px;
+    width: 300px;
+    margin: -200px 0 0 -170px;
   }
 }
 </style>

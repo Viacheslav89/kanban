@@ -142,6 +142,8 @@ $color-border: rgb(78, 67, 67);
 
 .board {
   border-collapse: collapse;
+  margin: 0;
+  padding: 0;
 }
 
 .kanban_title {
@@ -153,9 +155,9 @@ $color-border: rgb(78, 67, 67);
 }
 
 .board__btn_wrapper {
+  margin: 0 auto;
   width: 510px;
   padding: 10px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
@@ -182,11 +184,12 @@ $color-border: rgb(78, 67, 67);
   margin-bottom: 10px;
   border-radius: 10px;
   height: 35px;
-  width: 250px;
+  width: 100%;
 }
 
 .board__desk--wrapper {
   margin: 0;
+  padding: 0;
   padding: 0 25px 0 25px;
   display: flex;
   justify-content: center;
@@ -247,6 +250,15 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 550px) {
+  .board__btn {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 35px;
+    width: 100%;
+  }
+
   .board__title {
     font-size: 13px;
     white-space: nowrap;
@@ -258,7 +270,7 @@ $color-border: rgb(78, 67, 67);
   }
 
   .board__btn_wrapper {
-    width: 350px;
+    width: 320px;
   }
 }
 

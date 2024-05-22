@@ -4,6 +4,7 @@
     <p class="board__task_desk">{{ task.desk }}</p>
     <div class="board__task_deadline_wrapper">
       <p
+        v-if="task.status !== 'Выполнено'"
         :class="{
           board__task_deadline: true,
           board__task_deadline_end:
@@ -117,8 +118,6 @@ const removedTask = (): void => {
 
   &_ready {
     margin: 0;
-    margin-left: 15px;
-    padding: 0;
     color: rgb(137, 240, 96);
     font-size: 18px;
   }
@@ -140,7 +139,6 @@ const removedTask = (): void => {
       rgb(241, 244, 248) 30%,
       rgb(149, 159, 167) 100%
     );
-    
   }
 }
 
@@ -148,23 +146,26 @@ const removedTask = (): void => {
   .board__task {
     font-size: 12px;
 
-
     &_delete {
-    width: 20px;
-    height: 20px;
-    font-size: 9px;
-    margin-left: 2px;
-  }
+      width: 20px;
+      height: 20px;
+      font-size: 9px;
+      margin-left: 2px;
+    }
 
-  &_change {
-    width: 20px;
-    height: 20px;
-    font-size: 9px;
-  }
+    &_change {
+      width: 20px;
+      height: 20px;
+      font-size: 9px;
+    }
 
-  &_status {
-    width: 90px;
-  }
+    &_status {
+      width: 90px;
+    }
+
+    &_ready {
+      font-size: 15px;
+    }
   }
 }
 
@@ -172,23 +173,40 @@ const removedTask = (): void => {
   .board__task {
     font-size: 12px;
 
-
     &_delete {
-    width: 18px;
-    height: 18px;
-    font-size: 9px;
-    margin-left: 0;
-  }
+      width: 18px;
+      height: 18px;
+      font-size: 9px;
+      margin-left: 0;
+    }
 
-  &_change {
-    width: 18px;
-    height: 18px;
-    font-size: 9px;
-  }
+    &_change {
+      width: 18px;
+      height: 18px;
+      font-size: 9px;
+    }
 
-  &_status {
-    width: 70px;
+    &_status {
+      width: 70px;
+    }
+
+    &_ready {
+      font-size: 12px;
+    }
   }
+}
+
+@media screen and (max-width: 400px) {
+  .board__task {
+    font-size: 12px;
+
+    &_status {
+      width: 45px;
+    }
+
+    &_ready {
+      font-size: 12px;
+    }
   }
 }
 </style>
