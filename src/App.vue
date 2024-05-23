@@ -92,6 +92,7 @@ function createTask(): void {
   task.value.isEdit = false;
   task = ref(initTask);
   сancelForm();
+  console.log(tasks.value);
 }
 
 function removeTask(currentTask: Task): void {
@@ -215,13 +216,9 @@ $color-border: rgb(78, 67, 67);
 }
 
 .board__task {
-  background-color: rgb(132, 132, 218);
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  padding-left: 10px;
   border-radius: 5px;
-  position: relative;
+  margin-bottom: 10px;
 
   &_blue {
     background-color: rgb(85, 108, 243);
@@ -250,6 +247,11 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 550px) {
+  .board__task {
+    padding-left: 5px;
+    font-size: 12px;
+  }
+
   .board__btn {
     margin-top: 10px;
     margin-left: 5px;
@@ -275,7 +277,8 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 361px) {
-  .board__title {
+  .board__task {
+    padding-left: 5px;
     font-size: 10px;
   }
 }
