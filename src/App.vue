@@ -42,6 +42,9 @@
   />
 </template>
 
+
+
+
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import AppTask from "./components/AppTask.vue";
@@ -92,7 +95,6 @@ function createTask(): void {
   task.value.isEdit = false;
   task = ref(initTask);
   сancelForm();
-  console.log(tasks.value);
 }
 
 function removeTask(currentTask: Task): void {
@@ -104,9 +106,10 @@ function editTask(currentTask: Task): void {
   for (let key in task.value) {
     task.value[key] = currentTask[key];
   }
-
   task.value.isEdit = true;
   currentTaskIdx = tasks.value.indexOf(currentTask);
+  task = ref(initTask);
+
   toggleForm();
 }
 
@@ -137,6 +140,16 @@ watch(tasks.value, () => {
   updateStorage();
 });
 </script>
+
+
+
+
+
+
+
+
+
+
 
 <style lang="scss">
 $color-border: rgb(78, 67, 67);

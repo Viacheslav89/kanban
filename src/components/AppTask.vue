@@ -94,6 +94,7 @@ const removedTask = (): void => {
 
   .task__wrapper_btn {
     display: flex;
+    margin-left: 3px;
   }
 
   .task__btn_delete {
@@ -193,6 +194,10 @@ const removedTask = (): void => {
 }
 
 @media screen and (max-width: 400px) {
+  .task__header {
+    padding: 3px;
+  }
+
   .task__btn_delete {
     width: 18px;
     height: 18px;
@@ -207,7 +212,7 @@ const removedTask = (): void => {
   }
 
   .task__status {
-    width: 45px;
+    width: 60px;
   }
 
   .task__ready {
