@@ -5,7 +5,7 @@
       <button class="board__btn btn" @click="toggleForm()">
         Создать задачу
       </button>
-      <button class="board__btn btn" @click="clearTasks()">Очиститть</button>
+      <button class="board__btn btn" @click="clearLocal()">Очиститть</button>
     </div>
     <ul class="board__desk--wrapper">
       <li v-for="column in taskColumns" :key="column" class="board__column">
@@ -75,8 +75,7 @@ function renderTask(column: string): Task[] {
   return tasks.value.filter((task) => task.status === column);
 }
 
-function clearTasks(): void {
-  tasks.value = [];
+function clearLocal(): void {
   localStorage.clear();
 }
 

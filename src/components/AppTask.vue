@@ -162,6 +162,7 @@ const removedTask = (): void => {
 
   .task__status {
     width: 90px;
+    font-size: 12px;
   }
 
   .task__ready {
