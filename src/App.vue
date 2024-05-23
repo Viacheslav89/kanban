@@ -44,7 +44,6 @@
 
 
 
-
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import AppTask from "./components/AppTask.vue";
@@ -77,6 +76,7 @@ function renderTask(column: string): Task[] {
 
 function clearLocal(): void {
   localStorage.clear();
+  tasks.value = [];
 }
 
 function toggleForm(): void {
@@ -94,6 +94,7 @@ function createTask(): void {
   task.value.isEdit = false;
   task = ref(initTask);
   сancelForm();
+  updateStorage();
 }
 
 function removeTask(currentTask: Task): void {
@@ -108,7 +109,6 @@ function editTask(currentTask: Task): void {
   task.value.isEdit = true;
   currentTaskIdx = tasks.value.indexOf(currentTask);
   task = ref(initTask);
-
   toggleForm();
 }
 
@@ -139,15 +139,6 @@ watch(tasks.value, () => {
   updateStorage();
 });
 </script>
-
-
-
-
-
-
-
-
-
 
 
 <style lang="scss">

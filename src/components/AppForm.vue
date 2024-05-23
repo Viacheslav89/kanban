@@ -29,19 +29,23 @@
           max="2026-12-31"
         />
       </p>
+      <div class="form__selects--wrapper">
+        <div class="form__select--wrapper">
+          Вид задачи:
+          <select class="form__select" name="select" v-model="task.type">
+            <option value="Задача">Задача</option>
+            <option value="Баг">Баг</option>
+          </select>
+        </div>
 
-      <div class="form__select--wrapper">
-        <select class="form__select" name="select" v-model="task.type">
-          <option value="Задача">Задача</option>
-          <option value="Баг">Баг</option>
-        </select>
-
-        <select class="form__select" name="select" v-model="task.user">
-          <option value="Не назначен">Не назначен</option>
-          <option value="Johnny Depp">Johnny Depp</option>
-          <option value="Leonardo DiCaprio">Leonardo DiCaprio</option>
-          <option value="Beb Affleck">Ben Affleck</option>
-        </select>
+        <div class="form__select--wrapper">
+          Исполнитель:
+          <select class="form__select" name="select" v-model="task.user">
+            <option value="Johnny Depp">Спанч Боб</option>
+            <option value="Leonardo DiCaprio">Патрик</option>
+            <option value="Beb Affleck">Сэнди</option>
+          </select>
+        </div>
       </div>
       <div class="form__btn--wrapper">
         <button class="form__btn btn" @click="createdTask">Создать</button>
@@ -120,11 +124,15 @@ const closerForm = () => {
   width: 98%;
 }
 
-.form__select--wrapper {
+.form__selects--wrapper {
   padding-top: 10px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+.form__select--wrapper {
+  width: 100%;
 }
 
 .form__select {
