@@ -37,6 +37,7 @@
   <AppForm
     v-if="isOpenForm"
     :task="task"
+    :initTask="initTask"
     @created-task="createTask"
     @closer-form="сancelForm"
   />

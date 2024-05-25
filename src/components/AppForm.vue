@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="form__btn--wrapper">
-        <button class="form__btn btn" @click="createdTask">Создать</button>
+        <button class="form__btn btn" @click="createdTask">{{ editCreateBtn }}</button>
         <button class="form__btn btn" @click="closerForm">Отменить</button>
       </div>
     </div>
@@ -59,8 +59,9 @@
 <script setup lang="ts">
 import { Task } from "../types";
 
-defineProps<{
+const props = defineProps<{
   task: Task;
+  initTask: Task
 }>();
 
 const emit = defineEmits<{
@@ -75,6 +76,9 @@ const createdTask = () => {
 const closerForm = () => {
   emit("closerForm");
 };
+
+let editCreateBtn = props.initTask.isEdit === true ? 'Редактировать' : 'Создать';
+
 </script>
 
 <style lang="scss">
