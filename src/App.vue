@@ -42,14 +42,14 @@
   />
 </template>
 
-
-
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import AppTask from "./components/AppTask.vue";
 import AppForm from "./components/AppForm.vue";
 
 import { Task } from "./types";
+
+let taskId = +(localStorage.getItem("taskId") || 1);
 
 const initTask: Task = {
   name: "",
@@ -58,7 +58,7 @@ const initTask: Task = {
   type: "Задача",
   user: "Не назначен",
   status: "К выполнению",
-  id: +(localStorage.getItem("taskId") || 0),
+  id: +(localStorage.getItem("taskId") || taskId),
   isEdit: false,
 };
 
@@ -90,7 +90,9 @@ function createTask(): void {
     ? tasks.value.splice(currentTaskIdx, 1, task.value)
     : tasks.value.push(task.value);
 
-  initTask.id++;
+  taskId++;
+  initTask.id = taskId;
+  initTask.status = 'К выполнению';
   task.value.isEdit = false;
   task = ref(initTask);
   сancelForm();
@@ -108,9 +110,10 @@ function editTask(currentTask: Task): void {
   }
   task.value.isEdit = true;
   currentTaskIdx = tasks.value.indexOf(currentTask);
-  task = ref(initTask);
+  // task = ref(initTask);
   toggleForm();
 }
+
 
 function сancelForm(): void {
   task.value.isEdit = false;
@@ -132,14 +135,13 @@ function onTaskEdited(payload: { updatedTask: Task }) {
 
 function updateStorage(): void {
   localStorage.setItem("myform", JSON.stringify(tasks.value));
-  localStorage.setItem("taskId", JSON.stringify(initTask.id));
+  localStorage.setItem("taskId", JSON.stringify(taskId));
 }
 
 watch(tasks.value, () => {
   updateStorage();
 });
 </script>
-
 
 <style lang="scss">
 $color-border: rgb(78, 67, 67);

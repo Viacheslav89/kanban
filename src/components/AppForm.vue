@@ -29,8 +29,8 @@
           max="2026-12-31"
         />
       </p>
-      <div class="form__selects--wrapper">
-        <div class="form__select--wrapper">
+      <div class="form__selects_wrapper">
+        <div class="form__select_wrapper">
           Вид задачи:
           <select class="form__select" name="select" v-model="task.type">
             <option value="Задача">Задача</option>
@@ -41,9 +41,9 @@
         <div class="form__select--wrapper">
           Исполнитель:
           <select class="form__select" name="select" v-model="task.user">
-            <option value="Johnny Depp">Спанч Боб</option>
-            <option value="Leonardo DiCaprio">Патрик</option>
-            <option value="Beb Affleck">Сэнди</option>
+            <option value="Спанч Боб">Спанч Боб</option>
+            <option value="Патрик">Патрик</option>
+            <option value="Сэнди">Сэнди</option>
           </select>
         </div>
       </div>
@@ -94,7 +94,7 @@ const closerForm = () => {
   border-radius: 10px;
   padding: 20px;
   width: 600px;
-  height: 360px;
+  height: 370px;
   margin: -200px 0 0 -300px;
   background-color: white;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
@@ -124,14 +124,14 @@ const closerForm = () => {
   width: 98%;
 }
 
-.form__selects--wrapper {
+.form__selects_wrapper {
   padding-top: 10px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
 
-.form__select--wrapper {
+.form__select_wrapper {
   width: 100%;
 }
 
