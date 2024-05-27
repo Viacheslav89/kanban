@@ -1,15 +1,15 @@
 <template>
   <div class="board">
-    <h1 class="kanban_title">Kanban board</h1>
+    <h1 class="board__title">Kanban board</h1>
     <div class="board__btn_wrapper">
-      <button class="board__btn btn" @click="toggleForm()">
+      <button class="board__btn btn" @click="toggleForm">
         Создать задачу
       </button>
-      <button class="board__btn btn" @click="clearLocal()">Очиститть</button>
+      <button class="board__btn btn" @click="clearLocal">Очиститть</button>
     </div>
-    <ul class="board__desk--wrapper">
-      <li v-for="column in taskColumns" :key="column" class="board__column">
-        <h2 class="board__title">{{ column }}</h2>
+    <ul class="board__desk_wrapper">
+      <li v-for="column in boardColumns" :key="column" class="board__column">
+        <h2 class="column__title">{{ column }}</h2>
         <ul class="board__desk">
           <li
             v-for="taskItem in renderTask(column)"
@@ -36,10 +36,9 @@
 
   <AppForm
     v-if="isOpenForm"
-    :task="task"
-    :initTask="initTask"
+    :taskData="taskData"
     @created-task="createTask"
-    @closer-form="сancelForm"
+    @closer-form="toggleForm"
   />
 </template>
 
@@ -61,15 +60,16 @@ const initTask: Task = {
   status: "К выполнению",
   id: +(localStorage.getItem("taskId") || taskId),
   isEdit: false,
-};
+}
+
+let taskData: Task = { ...initTask};
 
 const myForm = localStorage.getItem("myform");
 let tasks = ref<Array<Task>>(myForm !== null ? JSON.parse(myForm) : []);
 
-const taskColumns = ["К выполнению", "В работе", "Выполнено"];
+const boardColumns = ["К выполнению", "В работе", "Выполнено"];
 const isOpenForm = ref(false);
 let currentTaskIdx = 0;
-let task = ref(initTask);
 
 function renderTask(column: string): Task[] {
   return tasks.value.filter((task) => task.status === column);
@@ -84,20 +84,23 @@ function toggleForm(): void {
   isOpenForm.value = !isOpenForm.value;
 }
 
-function createTask(): void {
-  task.value = { ...initTask };
-
-  initTask.isEdit
-    ? tasks.value.splice(currentTaskIdx, 1, task.value)
-    : tasks.value.push(task.value);
-
-  taskId++;
-  initTask.id = taskId;
-  initTask.status = 'К выполнению';
-  task.value.isEdit = false;
-  task = ref(initTask);
-  сancelForm();
+const resetTaskData = () => {
+  taskData = { ...initTask};
   updateStorage();
+  toggleForm();
+}
+ 
+const createTask = () => {
+  const newTask = {
+    ...taskData,
+    id: taskId++,
+  }
+
+  newTask.isEdit
+    ? tasks.value.splice(currentTaskIdx, 1, newTask)
+    : tasks.value.push(newTask);
+
+    resetTaskData();
 }
 
 function removeTask(currentTask: Task): void {
@@ -106,26 +109,14 @@ function removeTask(currentTask: Task): void {
 }
 
 function editTask(currentTask: Task): void {
-  for (let key in task.value) {
-    task.value[key] = currentTask[key];
-  }
-  task.value.isEdit = true;
+  taskData = { 
+    ...currentTask,
+    isEdit: true,
+   };
   currentTaskIdx = tasks.value.indexOf(currentTask);
-  // task = ref(initTask);
   toggleForm();
 }
 
-
-function сancelForm(): void {
-  task.value.isEdit = false;
-  toggleForm();
-  claerForm();
-}
-
-function claerForm(): void {
-  task.value.name = "";
-  task.value.desk = "";
-}
 
 function onTaskEdited(payload: { updatedTask: Task }) {
   const idx = tasks.value.findIndex(
@@ -153,7 +144,7 @@ $color-border: rgb(78, 67, 67);
   padding: 0;
 }
 
-.kanban_title {
+.board__title {
   margin: 20px auto 10px auto;
   width: 250px;
   font-size: 38px;
@@ -194,7 +185,7 @@ $color-border: rgb(78, 67, 67);
   width: 100%;
 }
 
-.board__desk--wrapper {
+.board__desk_wrapper {
   margin: 0;
   padding: 0;
   padding: 0 25px 0 25px;
@@ -209,7 +200,7 @@ $color-border: rgb(78, 67, 67);
   border: 2px solid $color-border;
 }
 
-.board__title {
+.column__title {
   padding: 10px;
   margin: 0;
   text-align: center;
@@ -247,7 +238,7 @@ $color-border: rgb(78, 67, 67);
     width: 400px;
   }
 
-  .board__title {
+  .column__title {
     font-size: 18px;
   }
 }
@@ -267,12 +258,12 @@ $color-border: rgb(78, 67, 67);
     width: 100%;
   }
 
-  .board__title {
+  .column__title {
     font-size: 13px;
     white-space: nowrap;
   }
 
-  .kanban_title {
+  .board__title {
     width: 205px;
     font-size: 32px;
   }

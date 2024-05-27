@@ -5,7 +5,7 @@
       <p class="form__desc">
         Название задачи: <br />
         <input
-          v-model="task.name"
+          v-model="taskData.name"
           class="form__input"
           type="text"
           placeholder="Покормить кота"
@@ -14,7 +14,7 @@
       <p class="form__desc">
         Описание: <br />
         <input
-          v-model="task.desk"
+          v-model="taskData.desk"
           class="form__input"
           type="text"
           placeholder="Дать рыбку в обед"
@@ -23,16 +23,17 @@
       <p class="form__desc">
         Дедлайн: <br />
         <input
-          v-model="task.deadline"
+          v-model="taskData.deadline"
           class="form__input"
           type="date"
+          min=""
           max="2026-12-31"
         />
       </p>
       <div class="form__selects_wrapper">
         <div class="form__select_wrapper">
           Вид задачи:
-          <select class="form__select" name="select" v-model="task.type">
+          <select class="form__select" name="select" v-model="taskData.type">
             <option value="Задача">Задача</option>
             <option value="Баг">Баг</option>
           </select>
@@ -40,10 +41,12 @@
 
         <div class="form__select--wrapper">
           Исполнитель:
-          <select class="form__select" name="select" v-model="task.user">
+          <select class="form__select" name="select" v-model="taskData.user">
             <option value="Спанч Боб">Спанч Боб</option>
             <option value="Патрик">Патрик</option>
             <option value="Сэнди">Сэнди</option>
+            <option value="Мистер Крабс">Мистер Крабс</option>
+            <option value="Сквидвард">Сквидвард</option>
           </select>
         </div>
       </div>
@@ -60,8 +63,7 @@
 import { Task } from "../types";
 
 const props = defineProps<{
-  task: Task;
-  initTask: Task
+  taskData: Task
 }>();
 
 const emit = defineEmits<{
@@ -77,7 +79,7 @@ const closerForm = () => {
   emit("closerForm");
 };
 
-let editCreateBtn = props.initTask.isEdit === true ? 'Редактировать' : 'Создать';
+let editCreateBtn = props.taskData.isEdit === true ? 'Редактировать' : 'Создать';
 
 </script>
 
