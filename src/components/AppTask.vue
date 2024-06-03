@@ -7,33 +7,31 @@
     </div>
   </div>
 
-  <p class="board__task_desk">{{ task.desk }}</p>
+  <p class="task__desk">{{ task.desk }}</p>
 
   <div class="task__deadline_wrapper">
     <p
-      v-if="task.status !== 'Выполнено'"
+      v-if="task.status !== ColumnTitle.Done"
       :class="{
         task__deadline: true,
-        task__deadline_end:
-          Date.parse(task.deadline) + 86400000 < new Date().getTime() &&
-          column !== 'Выполнено',
+        task__deadline_end: getDeadline(task.deadline, column),
       }"
     >
       {{ task.deadline }}
     </p>
-    <b v-if="column === 'Выполнено'" class="task__ready"> Завершено </b>
+    <b v-if="column === ColumnTitle.Done" class="task__ready"> Завершено </b>
   </div>
 
   <p class="task__user">{{ task.user }}</p>
 
   <select name="" id="" class="task__status" @input="changeStatus">
-    <option value="К выполнению" :selected="task.status === 'К выполнению'">
+    <option value="К выполнению" :selected="task.status === ColumnTitle.ToDo">
       К выполнению
     </option>
-    <option value="В работе" :selected="task.status === 'В работе'">
+    <option value="В работе" :selected="task.status === ColumnTitle.Doing">
       В работе
     </option>
-    <option value="Выполнено" :selected="task.status === 'Выполнено'">
+    <option value="Выполнено" :selected="task.status === ColumnTitle.Done">
       Выполнено
     </option>
   </select>
@@ -41,6 +39,19 @@
 
 <script setup lang="ts">
 import { Task } from "../types";
+
+enum ColumnTitle {
+  ToDo = "К выполнению",
+  Doing = "В работе",
+  Done = "Выполнено",
+}
+
+const getDeadline = (deadline: string, column: string) => {
+  return (
+    Date.parse(deadline) + 86400000 < new Date().getTime() &&
+    column !== ColumnTitle.Done
+  );
+};
 
 const props = defineProps<{
   task: Task;
@@ -58,8 +69,8 @@ const emit = defineEmits<{
   (e: "removedTask"): void;
 }>();
 
-const changeStatus = (e: Event) => {
-  const value = (e.target as HTMLInputElement).value;
+const changeStatus = (event: Event) => {
+  const value = (event.target as HTMLInputElement).value;
 
   const updatedTask = {
     ...props.task,
@@ -80,73 +91,98 @@ const removedTask = (): void => {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+$color-border: rgb(78, 67, 67);
 
-  .task__header {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 5px 0 0;
+.board__task {
+  list-style-type: none;
+}
+
+.task__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5px 0 0;
+}
+
+.task__title {
+  margin: 0;
+  word-break: break-all;
+}
+
+.task__desk {
+  padding-right: 10px;
+  word-break: break-all;
+}
+
+.task__wrapper_btn {
+  display: flex;
+  margin-left: 3px;
+}
+
+.btn {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgb(241, 244, 248) 30%,
+    rgb(149, 159, 167) 100%
+  );
+  color: black;
+  cursor: pointer;
+  border: 2px solid $color-border;
+
+  &:hover {
+    transform: scale(1.03);
   }
+}
 
-  .task__title {
-    margin: 0;
-  }
+.task__btn_delete {
+  width: 25px;
+  height: 25px;
+  margin-left: 3px;
+}
 
-  .task__wrapper_btn {
-    display: flex;
-    margin-left: 3px;
-  }
+.task__btn_change {
+  width: 25px;
+  height: 25px;
+}
 
-  .task__btn_delete {
-    width: 25px;
-    height: 25px;
-    margin-left: 3px;
-  }
+.task__deadline_wrapper {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .task__btn_change {
-    width: 25px;
-    height: 25px;
-  }
+.task__deadline {
+  margin: 0;
+  padding: 0;
+}
 
-  .task__deadline_wrapper {
-    margin: 0;
-    display: flex;
-    justify-content: space-between;
-  }
+.task__ready {
+  margin: 0;
+  color: rgb(137, 240, 96);
+  font-size: 18px;
+}
 
-  .task__deadline {
-    margin: 0;
-    padding: 0;
-  }
+.task__deadline_end {
+  background-color: rgb(128, 33, 33);
+  padding: 5px;
+  border-radius: 7px;
+}
 
-  .task__ready {
-    margin: 0;
-    color: rgb(137, 240, 96);
-    font-size: 18px;
-  }
-
-  .task__deadline_end {
-    background-color: rgb(128, 33, 33);
-    padding: 5px;
-    border-radius: 7px;
-  }
-
-  .task__status {
-    margin-bottom: 8px;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 2px;
-    width: auto;
-    background: linear-gradient(
-      90deg,
-      rgb(241, 244, 248) 30%,
-      rgb(149, 159, 167) 100%
-    );
-  }
-
+.task__status {
+  margin-bottom: 8px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 2px;
+  width: auto;
+  background: linear-gradient(
+    90deg,
+    rgb(241, 244, 248) 30%,
+    rgb(149, 159, 167) 100%
+  );
+}
 
 @media screen and (max-width: 565px) {
-
   .task__btn_delete {
     width: 20px;
     height: 20px;

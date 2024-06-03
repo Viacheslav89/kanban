@@ -5,6 +5,10 @@
       <p class="form__desc">
         Название задачи: <br />
         <input
+          :class="{
+            form__input: true,
+            form__desk_filled: isNotFilledInput.name,
+          }"
           v-model="taskData.name"
           class="form__input"
           type="text"
@@ -14,8 +18,11 @@
       <p class="form__desc">
         Описание: <br />
         <input
+          :class="{
+            form__input: true,
+            form__desk_filled: isNotFilledInput.desk,
+          }"
           v-model="taskData.desk"
-          class="form__input"
           type="text"
           placeholder="Дать рыбку в обед"
         />
@@ -44,14 +51,14 @@
           <select class="form__select" name="select" v-model="taskData.user">
             <option value="Спанч Боб">Спанч Боб</option>
             <option value="Патрик">Патрик</option>
-            <option value="Сэнди">Сэнди</option>
-            <option value="Мистер Крабс">Мистер Крабс</option>
             <option value="Сквидвард">Сквидвард</option>
           </select>
         </div>
       </div>
       <div class="form__btn--wrapper">
-        <button class="form__btn btn" @click="createdTask">{{ editCreateBtn }}</button>
+        <button class="form__btn btn" @click="createdTask">
+          {{ editCreateBtn }}
+        </button>
         <button class="form__btn btn" @click="closerForm">Отменить</button>
       </div>
     </div>
@@ -61,9 +68,12 @@
 
 <script setup lang="ts">
 import { Task } from "../types";
+import { ref } from "vue";
+
+let isNotFilledInput = ref({ name: false, desk: false });
 
 const props = defineProps<{
-  taskData: Task
+  taskData: Task;
 }>();
 
 const emit = defineEmits<{
@@ -71,19 +81,37 @@ const emit = defineEmits<{
   (e: "closerForm"): void;
 }>();
 
+const isNotCompletedInput = () => {
+  isNotFilledInput.value = { name: false, desk: false };
+
+  if (props.taskData.name === "") {
+    isNotFilledInput.value.name = true;
+  }
+
+  if (props.taskData.desk === "") {
+    isNotFilledInput.value.desk = true;
+  }
+
+  if (props.taskData.desk === "" || props.taskData.name === "") {
+    return true;
+  }
+  return false;
+};
+
 const createdTask = () => {
-  emit("createdTask");
+  if (!isNotCompletedInput()) {
+    emit("createdTask");
+  }
 };
 
 const closerForm = () => {
   emit("closerForm");
 };
 
-let editCreateBtn = props.taskData.isEdit === true ? 'Редактировать' : 'Создать';
-
+let editCreateBtn = props.taskData.isEdit ? "Редактировать" : "Создать";
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .form {
   position: fixed;
   top: 0;
@@ -128,6 +156,33 @@ let editCreateBtn = props.taskData.isEdit === true ? 'Редактировать
   border-radius: 5px;
   min-height: 30px;
   width: 98%;
+}
+
+.form__name_filled {
+  animation-name: shake;
+  animation-duration: 0.5s;
+  animation-iteration-count: 2;
+}
+
+.form__desk_filled {
+  animation-name: shake;
+  animation-duration: 0.5s;
+  animation-iteration-count: 2;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(2px, 0px);
+  }
+  10% {
+    transform: translate(-2px, 0px);
+  }
+  20% {
+    transform: translate(2px, 0px);
+  }
+  30% {
+    transform: translate(-2px, 0px);
+  }
 }
 
 .form__selects_wrapper {
