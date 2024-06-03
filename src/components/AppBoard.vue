@@ -79,7 +79,7 @@ const initTask: Task = {
   isEdit: false,
 };
 
-let taskData: Task = { ...initTask };
+let taskData = ref({ ...initTask });
 
 const myForm = localStorage.getItem("myform");
 let tasks = ref<Array<Task>>(myForm !== null ? JSON.parse(myForm) : []);
@@ -99,19 +99,18 @@ const clearLocal = (): void => {
 
 const toggleForm = (): void => {
   isOpenForm.value = !isOpenForm.value;
-  taskData = { ...initTask };
   updateStorage();
 };
 
 const resetTaskData = () => {
-  taskData = { ...initTask };
+  taskData.value = { ...initTask };
   updateStorage();
   toggleForm();
 };
 
 const createTask = () => {
   const newTask = {
-    ...taskData,
+    ...taskData.value,
     id: taskId++,
   };
 
@@ -132,7 +131,7 @@ const removeTask = (currentTask: Task): void => {
 };
 
 const editTask = (currentTask: Task): void => {
-  taskData = {
+  taskData.value = {
     ...currentTask,
     isEdit: true,
   };

@@ -81,7 +81,7 @@ const emit = defineEmits<{
   (e: "closerForm"): void;
 }>();
 
-const isNotCompletedInput = () => {
+const isNotFilledForm = () => {
   isNotFilledInput.value = { name: false, desk: false };
 
   if (props.taskData.name === "") {
@@ -99,7 +99,7 @@ const isNotCompletedInput = () => {
 };
 
 const createdTask = () => {
-  if (!isNotCompletedInput()) {
+  if (!isNotFilledForm()) {
     emit("createdTask");
   }
 };
