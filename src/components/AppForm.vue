@@ -87,11 +87,9 @@ const isNotFilledForm = () => {
   if (props.taskData.name === "") {
     isNotFilledInput.value.name = true;
   }
-
   if (props.taskData.desk === "") {
     isNotFilledInput.value.desk = true;
   }
-
   if (props.taskData.desk === "" || props.taskData.name === "") {
     return true;
   }

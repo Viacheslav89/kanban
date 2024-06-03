@@ -34,10 +34,9 @@
 
   <AppForm
     v-if="isOpenForm"
-    :taskData="taskData"
-    
+    :taskData="taskData"   
     @created-task="createTask"
-    @closer-form="toggleForm"
+    @closer-form="cancelForm"
   />
 </template>
 
@@ -101,6 +100,11 @@ const toggleForm = (): void => {
   isOpenForm.value = !isOpenForm.value;
   updateStorage();
 };
+
+const cancelForm = () => {
+  taskData.value = { ...initTask };
+  toggleForm();
+}
 
 const resetTaskData = () => {
   taskData.value = { ...initTask };
