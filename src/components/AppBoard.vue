@@ -3,7 +3,7 @@
     <h1 class="board__title">Kanban board</h1>
     <div class="board__btn_wrapper">
       <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
-      <button class="board__btn btn" @click="clearLocal">Очиститть</button>
+      <button class="board__btn btn" @click="clearLocal">Очистить</button>
     </div>
     <ul class="board__desk_wrapper">
       <li v-for="column in boardColumns" class="board__column">
@@ -143,11 +143,11 @@ const editTask = (currentTask: Task): void => {
   toggleForm();
 };
 
-const onTaskEdited = (payload: { updatedTask: Task }): void => {
+const onTaskEdited = (updatedTask: Task ): void => {
   const idx = tasks.value.findIndex(
-    (task) => task.id === payload.updatedTask.id
+    (task) => task.id === updatedTask.id
   );
-  tasks.value.splice(idx, 1, payload.updatedTask);
+  tasks.value.splice(idx, 1, updatedTask);
 };
 
 const updateStorage = (): void => {

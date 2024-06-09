@@ -59,12 +59,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (
-    e: "edited",
-    payload: {
-      updatedTask: Task;
-    }
-  ): void;
+  (e: "edited", updatedTask: Task): void;
   (e: "editedTask"): void;
   (e: "removedTask"): void;
 }>();
@@ -77,9 +72,7 @@ const changeStatus = (event: Event) => {
     status: value,
   };
 
-  emit("edited", {
-    updatedTask,
-  });
+  emit("edited", updatedTask);
 };
 
 const editedTask = (): void => {
@@ -182,22 +175,22 @@ $color-border: rgb(78, 67, 67);
   );
 }
 
-@media screen and (max-width: 565px) {
+@media screen and (max-width: 570px) {
   .task__btn_delete {
-    width: 20px;
-    height: 20px;
+    width: 23px;
+    height: 23px;
     font-size: 9px;
     margin-left: 2px;
   }
 
   .task__btn_change {
-    width: 20px;
-    height: 20px;
+    width: 23px;
+    height: 23px;
     font-size: 9px;
   }
 
   .task__status {
-    width: 90px;
+    width: 110px;
     font-size: 12px;
   }
 
