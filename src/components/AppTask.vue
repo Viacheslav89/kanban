@@ -3,7 +3,7 @@
     <h3 class="task__title">{{ task.name }}</h3>
     <div class="task__wrapper_btn">
       <button class="task__btn_change btn" @click="editedTask">..</button>
-      <button class="task__btn_delete btn" @click="removedTask">Х</button>
+      <button class="task__btn_delete btn" @click="removeTask(props.task)">Х</button>
     </div>
   </div>
 
@@ -24,7 +24,7 @@
 
   <p class="task__user">{{ task.user }}</p>
 
-  <select name="" id="" class="task__status" @input="changeStatus">
+  <select name="" id="" class="task__status" @input="editTaskStatus($event, props.task)">
     <option value="К выполнению" :selected="task.status === ColumnTitle.ToDo">
       К выполнению
     </option>
@@ -39,12 +39,18 @@
 
 <script setup lang="ts">
 import { Task } from "../types";
+import { useChangeTasks } from "./composable"
 
 enum ColumnTitle {
   ToDo = "К выполнению",
   Doing = "В работе",
   Done = "Выполнено",
-}
+};
+
+const props = defineProps<{
+  task: Task;
+  column: string;
+}>();
 
 const getDeadline = (deadline: string, column: string) => {
   return (
@@ -53,36 +59,17 @@ const getDeadline = (deadline: string, column: string) => {
   );
 };
 
-const props = defineProps<{
-  task: Task;
-  column: string;
-}>();
-
 const emit = defineEmits<{
-  (e: "edited", updatedTask: Task): void;
-  (e: "editedTask"): void;
-  (e: "removedTask"): void;
+  (e: "editedTask", currentTask: Task): void;
 }>();
 
-const changeStatus = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value;
-
-  const updatedTask = {
-    ...props.task,
-    status: value,
-  };
-
-  emit("edited", updatedTask);
-};
+const { editTaskStatus, removeTask } = useChangeTasks();
 
 const editedTask = (): void => {
-  emit("editedTask");
-};
-
-const removedTask = (): void => {
-  emit("removedTask");
+  emit("editedTask", props.task);
 };
 </script>
+
 
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);

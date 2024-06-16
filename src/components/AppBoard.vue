@@ -22,9 +22,7 @@
             <AppTask
               :task="taskItem"
               :column="column"
-              @edited="onTaskEdited"
-              @edited-task="editTask(taskItem)"
-              @removed-task="removeTask(taskItem)"
+              @edited-task="editedTask"
             />
           </li>
         </ul>
@@ -34,15 +32,16 @@
 
   <AppForm
     v-if="isOpenForm"
-    :taskData="taskData"   
-    @created-task="createTask"
+    :isEditTask="isEditTask"
+    :editableTask="editableTask"
     @closer-form="cancelForm"
   />
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { Task } from "../types";
+import { tasks } from "./composable";
 
 import AppTask from "./AppTask.vue";
 import AppForm from "./AppForm.vue";
@@ -51,7 +50,7 @@ import AppForm from "./AppForm.vue";
 enum TaskType {
   Task = "Задача",
   Bug = "Баг",
-}
+};
 
 const isBug = (task: Task) => {
   return task.type === TaskType.Bug;
@@ -65,27 +64,12 @@ const isCompleted = (task: Task) => {
   return task.status === "Выполнено";
 };
 
-let taskId = +(localStorage.getItem("taskId") || 1);
-
-const initTask: Task = {
-  name: "",
-  desk: "",
-  deadline: new Date().toISOString().slice(0, 10),
-  type: "Задача",
-  user: "Не назначен",
-  status: "К выполнению",
-  id: +(localStorage.getItem("taskId") || taskId),
-  isEdit: false,
-};
-
-let taskData = ref({ ...initTask });
-
-const myForm = localStorage.getItem("myform");
-let tasks = ref<Array<Task>>(myForm !== null ? JSON.parse(myForm) : []);
 
 const boardColumns = ["К выполнению", "В работе", "Выполнено"];
 const isOpenForm = ref(false);
-let currentTaskId = 0;
+let isEditTask = false;
+let editableTask: Task ;
+
 
 const getTasksCulumnStatus = (column: string): Task[] => {
   return tasks.value.filter((task) => task.status === column);
@@ -98,66 +82,18 @@ const clearLocal = (): void => {
 
 const toggleForm = (): void => {
   isOpenForm.value = !isOpenForm.value;
-  updateStorage();
+};
+
+const editedTask = (currentTask: Task) => {
+  isEditTask = true;
+  editableTask = currentTask;
+  toggleForm();
 };
 
 const cancelForm = () => {
-  taskData.value = { ...initTask };
   toggleForm();
-}
-
-const resetTaskData = () => {
-  taskData.value = { ...initTask };
-  updateStorage();
-  toggleForm();
+  isEditTask = false;
 };
-
-const createTask = () => {
-  const newTask = {
-    ...taskData.value,
-    id: taskId++,
-  };
-
-  const idxEditTask = tasks.value.findIndex(
-    (task) => task.id === currentTaskId
-  );
-
-  newTask.isEdit
-    ? tasks.value.splice(idxEditTask, 1, newTask)
-    : tasks.value.push(newTask);
-  resetTaskData();
-};
-
-
-const removeTask = (currentTask: Task): void => {
-  tasks.value = tasks.value.filter((task) => task.id !== currentTask.id);
-  updateStorage();
-};
-
-const editTask = (currentTask: Task): void => {
-  taskData.value = {
-    ...currentTask,
-    isEdit: true,
-  };
-  currentTaskId = currentTask.id;
-  toggleForm();
-};
-
-const onTaskEdited = (updatedTask: Task ): void => {
-  const idx = tasks.value.findIndex(
-    (task) => task.id === updatedTask.id
-  );
-  tasks.value.splice(idx, 1, updatedTask);
-};
-
-const updateStorage = (): void => {
-  localStorage.setItem("myform", JSON.stringify(tasks.value));
-  localStorage.setItem("taskId", JSON.stringify(taskId));
-};
-
-watch(tasks.value, () => {
-  updateStorage();
-});
 </script>
 
 <style scoped lang="scss">

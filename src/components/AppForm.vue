@@ -68,29 +68,45 @@
 
 <script setup lang="ts">
 import { Task } from "../types";
+import { useChangeTasks } from "./composable";
 import { ref } from "vue";
 
-let isNotFilledInput = ref({ name: false, desk: false });
-
 const props = defineProps<{
-  taskData: Task;
+  isEditTask: boolean;
+  editableTask: Task;
 }>();
 
+const initTask: Task = {
+  name: "",
+  desk: "",
+  deadline: new Date().toISOString().slice(0, 10),
+  type: "Задача",
+  user: "Не назначен",
+  status: "К выполнению",
+  id: +(localStorage.getItem("taskId") || 1),
+  isEdit: false,
+};
+
+let taskData = props.isEditTask
+  ? ref({ ...props.editableTask, isEdit: true })
+  : ref({ ...initTask });
+
+let isNotFilledInput = ref({ name: false, desk: false });
+const { createTask } = useChangeTasks();
+
 const emit = defineEmits<{
-  (e: "createdTask"): void;
   (e: "closerForm"): void;
 }>();
 
 const isNotFilledForm = () => {
-  isNotFilledInput.value = { name: false, desk: false };
 
-  if (props.taskData.name === "") {
+  if (taskData.value.name === "") {
     isNotFilledInput.value.name = true;
   }
-  if (props.taskData.desk === "") {
+  if (taskData.value.desk === "") {
     isNotFilledInput.value.desk = true;
   }
-  if (props.taskData.desk === "" || props.taskData.name === "") {
+  if (taskData.value.desk === "" || taskData.value.name === "") {
     return true;
   }
   return false;
@@ -98,7 +114,8 @@ const isNotFilledForm = () => {
 
 const createdTask = () => {
   if (!isNotFilledForm()) {
-    emit("createdTask");
+    createTask(taskData.value);
+    closerForm();
   }
 };
 
@@ -106,7 +123,7 @@ const closerForm = () => {
   emit("closerForm");
 };
 
-let editCreateBtn = props.taskData.isEdit ? "Редактировать" : "Создать";
+const editCreateBtn = props.isEditTask ? "Редактировать" : "Создать";
 </script>
 
 <style scoped lang="scss">
