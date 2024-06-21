@@ -5,7 +5,6 @@ let taskId = +(localStorage.getItem("taskId") || 1);
 export let taskDataEdit: {};
 export let isNotFilledInput = ref({ name: false, desk: false });
 
-
 const myForm = localStorage.getItem("myform");
 export let tasks = ref<Array<Task>>(myForm !== null ? JSON.parse(myForm) : []);
 
@@ -14,20 +13,38 @@ const updateStorage = (): void => {
   localStorage.setItem("taskId", JSON.stringify(taskId || 1));
 };
 
-
 export const useChangeTasks = () => {
   return {
+    // createTask(taskData: Task) {
+    //   const newTask = {
+    //     ...taskData,
+    //     id: taskId++,
+    //   };
+    //   const idxEditTask = tasks.value.findIndex(
+    //     (task) => task.id === taskData.id
+    //   );
+    //   newTask.isEdit
+    //     ? tasks.value.splice(idxEditTask, 1, newTask)
+    //     : tasks.value.push(newTask);
+    // },
+
     createTask(taskData: Task) {
       const newTask = {
         ...taskData,
         id: taskId++,
       };
+
+      tasks.value.push(newTask);
+    },
+
+    editTask(taskData: Task) {
+      const newTask = {
+        ...taskData,
+      };
       const idxEditTask = tasks.value.findIndex(
         (task) => task.id === taskData.id
       );
-      newTask.isEdit
-        ? tasks.value.splice(idxEditTask, 1, newTask)
-        : tasks.value.push(newTask);
+      tasks.value.splice(idxEditTask, 1, newTask);
     },
 
     editTaskStatus(event: Event, currentTask: Task) {

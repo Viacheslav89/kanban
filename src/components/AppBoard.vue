@@ -46,11 +46,10 @@ import { tasks } from "./composable";
 import AppTask from "./AppTask.vue";
 import AppForm from "./AppForm.vue";
 
-
 enum TaskType {
   Task = "Задача",
   Bug = "Баг",
-};
+}
 
 const isBug = (task: Task) => {
   return task.type === TaskType.Bug;
@@ -64,12 +63,10 @@ const isCompleted = (task: Task) => {
   return task.status === "Выполнено";
 };
 
-
 const boardColumns = ["К выполнению", "В работе", "Выполнено"];
 const isOpenForm = ref(false);
 let isEditTask = false;
-let editableTask: Task ;
-
+let editableTask: Task;
 
 const getTasksCulumnStatus = (column: string): Task[] => {
   return tasks.value.filter((task) => task.status === column);

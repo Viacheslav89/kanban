@@ -73,7 +73,7 @@ import { ref } from "vue";
 
 const props = defineProps<{
   isEditTask: boolean;
-  editableTask: Task;
+  editableTask?: Task;
 }>();
 
 const initTask: Task = {
@@ -87,19 +87,20 @@ const initTask: Task = {
   isEdit: false,
 };
 
-let taskData = props.isEditTask
-  ? ref({ ...props.editableTask, isEdit: true })
-  : ref({ ...initTask });
+
+let taskData = ref(
+  props.isEditTask && props.editableTask ? { ...props.editableTask, isEdit: true } : { ...initTask }
+);
 
 let isNotFilledInput = ref({ name: false, desk: false });
-const { createTask } = useChangeTasks();
+const editCreateBtn = props.isEditTask ? "Редактировать" : "Создать";
+const { createTask, editTask } = useChangeTasks();
 
 const emit = defineEmits<{
   (e: "closerForm"): void;
 }>();
 
 const isNotFilledForm = () => {
-
   if (taskData.value.name === "") {
     isNotFilledInput.value.name = true;
   }
@@ -114,7 +115,11 @@ const isNotFilledForm = () => {
 
 const createdTask = () => {
   if (!isNotFilledForm()) {
-    createTask(taskData.value);
+    if(props.isEditTask) {
+      editTask(taskData.value);
+    } else {
+      createTask(taskData.value);
+    }
     closerForm();
   }
 };
@@ -122,8 +127,6 @@ const createdTask = () => {
 const closerForm = () => {
   emit("closerForm");
 };
-
-const editCreateBtn = props.isEditTask ? "Редактировать" : "Создать";
 </script>
 
 <style scoped lang="scss">
