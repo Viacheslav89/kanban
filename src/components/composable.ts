@@ -15,19 +15,6 @@ const updateStorage = (): void => {
 
 export const useChangeTasks = () => {
   return {
-    // createTask(taskData: Task) {
-    //   const newTask = {
-    //     ...taskData,
-    //     id: taskId++,
-    //   };
-    //   const idxEditTask = tasks.value.findIndex(
-    //     (task) => task.id === taskData.id
-    //   );
-    //   newTask.isEdit
-    //     ? tasks.value.splice(idxEditTask, 1, newTask)
-    //     : tasks.value.push(newTask);
-    // },
-
     createTask(taskData: Task) {
       const newTask = {
         ...taskData,

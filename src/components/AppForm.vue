@@ -87,9 +87,10 @@ const initTask: Task = {
   isEdit: false,
 };
 
-
 let taskData = ref(
-  props.isEditTask && props.editableTask ? { ...props.editableTask, isEdit: true } : { ...initTask }
+  props.isEditTask && props.editableTask
+    ? { ...props.editableTask, isEdit: true }
+    : { ...initTask }
 );
 
 let isNotFilledInput = ref({ name: false, desk: false });
@@ -115,7 +116,7 @@ const isNotFilledForm = () => {
 
 const createdTask = () => {
   if (!isNotFilledForm()) {
-    if(props.isEditTask) {
+    if (props.isEditTask) {
       editTask(taskData.value);
     } else {
       createTask(taskData.value);
