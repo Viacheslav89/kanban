@@ -201,6 +201,11 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 550px) {
+  .board__desk {
+  padding: 10px;
+  min-height: 200px;
+}
+
   .board__task {
     padding-left: 5px;
     font-size: 12px;

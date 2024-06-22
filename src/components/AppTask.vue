@@ -147,6 +147,7 @@ $color-border: rgb(78, 67, 67);
   margin: 0;
   color: rgb(137, 240, 96);
   font-size: 18px;
+  padding: 5px;
 }
 
 .task__deadline_end {
