@@ -1,52 +1,64 @@
 <template>
-  <div class="task__header">
-    <h3 class="task__title">{{ task.name }}</h3>
-    <div class="task__wrapper_btn">
-      <button class="task__btn_change btn" @click="editedTask">..</button>
-      <button class="task__btn_delete btn" @click="removeTask(props.task)">
-        Х
-      </button>
-    </div>
-  </div>
-
-  <p class="task__desk">{{ task.desk }}</p>
-
-  <div class="task__deadline_wrapper">
-    <p
-      v-if="task.status !== ColumnTitle.Done"
-      :class="{
-        task__deadline: true,
-        task__deadline_end: getDeadline(task.deadline, column),
-      }"
-    >
-      {{ task.deadline }}
-    </p>
-    <b v-if="column === ColumnTitle.Done" class="task__ready"> Завершено </b>
-  </div>
-
-  <p class="task__user">{{ task.user }}</p>
-
-  <select
-    name=""
-    id=""
-    class="task__status"
-    @input="editTaskStatus($event, props.task)"
+  <li
+    :class="{
+      board__task: true,
+      board__task_blue: isTask(task),
+      board__task_red: isBug(task),
+      board__task_completed: isCompleted(task),
+    }"
   >
-    <option value="К выполнению" :selected="task.status === ColumnTitle.ToDo">
-      К выполнению
-    </option>
-    <option value="В работе" :selected="task.status === ColumnTitle.Doing">
-      В работе
-    </option>
-    <option value="Выполнено" :selected="task.status === ColumnTitle.Done">
-      Выполнено
-    </option>
-  </select>
+    <div class="task__header">
+      <h3 class="task__title">{{ task.name }}</h3>
+      <div class="task__wrapper_btn">
+        <button class="task__btn_change btn" @click="editedTask(task)">
+          ..
+        </button>
+        <button class="task__btn_delete btn" @click="deleteTask(task.id)">
+          Х
+        </button>
+      </div>
+    </div>
+
+    <p class="task__desk">{{ task.desk }}</p>
+
+    <div class="task__deadline_wrapper">
+      <p
+        v-if="task.status !== ColumnTitle.Done"
+        :class="{
+          task__deadline: true,
+          task__deadline_end: getDeadline(task.deadline, column),
+        }"
+      >
+        {{ task.deadline }}
+      </p>
+      <b v-if="column === ColumnTitle.Done" class="task__ready"> Завершено </b>
+    </div>
+
+    <p class="task__user">{{ task.user }}</p>
+
+    <select 
+    v-model="task.status"
+    class="task__status"
+    @change="editTask( task.status, task )"
+    >
+      <option value="К выполнению" :selected="task.status === ColumnTitle.ToDo">
+        К выполнению
+      </option>
+      <option value="В работе" :selected="task.status === ColumnTitle.Doing">
+        В работе
+      </option>
+      <option value="Выполнено" :selected="task.status === ColumnTitle.Done">
+        Выполнено
+      </option>
+    </select>
+  </li>
 </template>
 
 <script setup lang="ts">
+import { watch } from "vue";
 import { Task } from "../types";
-import { useChangeTasks } from "./composable";
+import { useTasks } from "../composables/useTasks";
+
 
 enum ColumnTitle {
   ToDo = "К выполнению",
@@ -54,10 +66,28 @@ enum ColumnTitle {
   Done = "Выполнено",
 }
 
-const props = defineProps<{
+defineProps<{
   task: Task;
   column: string;
 }>();
+
+enum TaskType {
+  Task = "Задача",
+  Bug = "Баг",
+}
+
+const isBug = (task: Task) => {
+  return task.type === TaskType.Bug;
+};
+
+const isTask = (task: Task) => {
+  return task.type === TaskType.Task;
+};
+
+const isCompleted = (task: Task) => {
+  return task.status === "Выполнено";
+};
+
 
 const getDeadline = (deadline: string, column: string) => {
   return (
@@ -70,15 +100,41 @@ const emit = defineEmits<{
   (e: "editedTask", currentTask: Task): void;
 }>();
 
-const { editTaskStatus, removeTask } = useChangeTasks();
+const { tasks, editTask, deleteTask } = useTasks();
 
-const editedTask = (): void => {
-  emit("editedTask", props.task);
+const editedTask = (currentTask: Task): void => {
+  emit("editedTask", currentTask);
 };
+
+watch(tasks, () => {
+  console.log("watch");
+  localStorage.setItem("tasks", JSON.stringify(tasks.value));
+});
 </script>
 
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);
+
+.board__task {
+  padding-left: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+
+  &_blue {
+    background-color: rgb(85, 108, 243);
+    list-style: none;
+  }
+
+  &_red {
+    background-color: rgb(236, 58, 58);
+    list-style: none;
+  }
+
+  &_completed &_title,
+  &_completed &_desk {
+    text-decoration: line-through;
+  }
+}
 
 .board__task {
   list-style-type: none;
@@ -140,14 +196,14 @@ $color-border: rgb(78, 67, 67);
 
 .task__deadline {
   margin: 0;
-  padding: 0;
+  padding: 5px 0 5px 0;
 }
 
 .task__ready {
   margin: 0;
   color: rgb(137, 240, 96);
   font-size: 18px;
-  padding: 5px;
+  padding: 5px 0 5px 0;
 }
 
 .task__deadline_end {

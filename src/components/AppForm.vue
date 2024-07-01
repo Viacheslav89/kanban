@@ -9,7 +9,7 @@
             form__input: true,
             form__desk_filled: isNotFilledInput.name,
           }"
-          v-model="taskData.name"
+          v-model="formData.name"
           class="form__input"
           type="text"
           placeholder="Покормить кота"
@@ -22,7 +22,7 @@
             form__input: true,
             form__desk_filled: isNotFilledInput.desk,
           }"
-          v-model="taskData.desk"
+          v-model="formData.desk"
           type="text"
           placeholder="Дать рыбку в обед"
         />
@@ -30,7 +30,7 @@
       <p class="form__desc">
         Дедлайн: <br />
         <input
-          v-model="taskData.deadline"
+          v-model="formData.deadline"
           class="form__input"
           type="date"
           min=""
@@ -40,7 +40,7 @@
       <div class="form__selects_wrapper">
         <div class="form__select_wrapper">
           Вид задачи:
-          <select class="form__select" name="select" v-model="taskData.type">
+          <select class="form__select" name="select" v-model="formData.type">
             <option value="Задача">Задача</option>
             <option value="Баг">Баг</option>
           </select>
@@ -48,7 +48,7 @@
 
         <div class="form__select--wrapper">
           Исполнитель:
-          <select class="form__select" name="select" v-model="taskData.user">
+          <select class="form__select" name="select" v-model="formData.user">
             <option value="Спанч Боб">Спанч Боб</option>
             <option value="Патрик">Патрик</option>
             <option value="Сквидвард">Сквидвард</option>
@@ -68,12 +68,12 @@
 
 <script setup lang="ts">
 import { Task } from "../types";
-import { useChangeTasks } from "./composable";
+import { useTasks } from "../composables/useTasks";
 import { ref } from "vue";
 
 const props = defineProps<{
   isEditTask: boolean;
-  editableTask?: Task;
+  task?: Task;
 }>();
 
 const initTask: Task = {
@@ -87,28 +87,28 @@ const initTask: Task = {
   isEdit: false,
 };
 
-let taskData = ref(
-  props.isEditTask && props.editableTask
-    ? { ...props.editableTask, isEdit: true }
+let formData = ref(
+  props.isEditTask && props.task
+    ? { ...props.task, isEdit: true }
     : { ...initTask }
 );
 
 let isNotFilledInput = ref({ name: false, desk: false });
 const editCreateBtn = props.isEditTask ? "Редактировать" : "Создать";
-const { createTask, editTask } = useChangeTasks();
+const { createTask, editTask } = useTasks();
 
 const emit = defineEmits<{
   (e: "closerForm"): void;
 }>();
 
 const isNotFilledForm = () => {
-  if (taskData.value.name === "") {
+  if (formData.value.name === "") {
     isNotFilledInput.value.name = true;
   }
-  if (taskData.value.desk === "") {
+  if (formData.value.desk === "") {
     isNotFilledInput.value.desk = true;
   }
-  if (taskData.value.desk === "" || taskData.value.name === "") {
+  if (formData.value.desk === "" || formData.value.name === "") {
     return true;
   }
   return false;
@@ -117,9 +117,10 @@ const isNotFilledForm = () => {
 const createdTask = () => {
   if (!isNotFilledForm()) {
     if (props.isEditTask) {
-      editTask(taskData.value);
+      editTask( formData.value.status, formData.value);
     } else {
-      createTask(taskData.value);
+      createTask(formData.value);
+      // localStorage.setItem("tasks", JSON.stringify(tasks.value));
     }
     closerForm();
   }
@@ -128,6 +129,11 @@ const createdTask = () => {
 const closerForm = () => {
   emit("closerForm");
 };
+
+// watch(tasks, () => {
+//   console.log('ww')
+//   localStorage.setItem("tasks", JSON.stringify(tasks.value));
+// });
 </script>
 
 <style scoped lang="scss">

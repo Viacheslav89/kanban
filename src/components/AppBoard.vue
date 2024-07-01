@@ -5,35 +5,16 @@
       <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
       <button class="board__btn btn" @click="clearLocal">Очистить</button>
     </div>
-    <ul class="board__desk_wrapper">
-      <li v-for="column in boardColumns" class="board__column">
-        <h2 class="column__title">{{ column }}</h2>
-        <ul class="board__desk">
-          <li
-            v-for="taskItem in getTasksCulumnStatus(column)"
-            :key="taskItem.id"
-            :class="{
-              board__task: true,
-              board__task_blue: isTask(taskItem),
-              board__task_red: isBug(taskItem),
-              board__task_completed: isCompleted(taskItem),
-            }"
-          >
-            <AppTask
-              :task="taskItem"
-              :column="column"
-              @edited-task="editedTask"
-            />
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <AppColumns 
+      @edited-task="editedTask"
+    />
+
   </div>
 
   <AppForm
     v-if="isOpenForm"
     :isEditTask="isEditTask"
-    :editableTask="editableTask"
+    :task="editableTask"
     @closer-form="cancelForm"
   />
 </template>
@@ -41,36 +22,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Task } from "../types";
-import { tasks } from "./composable";
+import { useTasks } from "../composables/useTasks";
 
-import AppTask from "./AppTask.vue";
+import AppColumns from "./AppColumns.vue";
 import AppForm from "./AppForm.vue";
 
-enum TaskType {
-  Task = "Задача",
-  Bug = "Баг",
-}
+const { tasks } = useTasks();
 
-const isBug = (task: Task) => {
-  return task.type === TaskType.Bug;
-};
-
-const isTask = (task: Task) => {
-  return task.type === TaskType.Task;
-};
-
-const isCompleted = (task: Task) => {
-  return task.status === "Выполнено";
-};
-
-const boardColumns = ["К выполнению", "В работе", "Выполнено"];
 const isOpenForm = ref(false);
 let isEditTask = false;
 let editableTask: Task;
 
-const getTasksCulumnStatus = (column: string): Task[] => {
-  return tasks.value.filter((task) => task.status === column);
-};
 
 const clearLocal = (): void => {
   localStorage.clear();
@@ -143,52 +105,52 @@ $color-border: rgb(78, 67, 67);
   width: 100%;
 }
 
-.board__desk_wrapper {
-  margin: 0;
-  padding: 0 25px 0 25px;
-  display: flex;
-  justify-content: center;
-}
+// .board__desk_wrapper {
+//   margin: 0;
+//   padding: 0 25px 0 25px;
+//   display: flex;
+//   justify-content: center;
+// }
 
-.board__column {
-  width: 100%;
-  list-style: none;
-  background-color: bisque;
-  border: 2px solid $color-border;
-}
+// .board__column {
+//   width: 100%;
+//   list-style: none;
+//   background-color: bisque;
+//   border: 2px solid $color-border;
+// }
 
-.column__title {
-  padding: 10px;
-  margin: 0;
-  text-align: center;
-  border-bottom: 4px solid $color-border;
-}
+// .column__title {
+//   padding: 10px;
+//   margin: 0;
+//   text-align: center;
+//   border-bottom: 4px solid $color-border;
+// }
 
-.board__desk {
-  padding: 15px;
-  min-height: 200px;
-}
+// .board__desk {
+//   padding: 15px;
+//   min-height: 200px;
+// }
 
-.board__task {
-  padding-left: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+// .board__task {
+//   padding-left: 10px;
+//   border-radius: 5px;
+//   margin-bottom: 10px;
 
-  &_blue {
-    background-color: rgb(85, 108, 243);
-    list-style: none;
-  }
+//   &_blue {
+//     background-color: rgb(85, 108, 243);
+//     list-style: none;
+//   }
 
-  &_red {
-    background-color: rgb(236, 58, 58);
-    list-style: none;
-  }
+//   &_red {
+//     background-color: rgb(236, 58, 58);
+//     list-style: none;
+//   }
 
-  &_completed &_title,
-  &_completed &_desk {
-    text-decoration: line-through;
-  }
-}
+//   &_completed &_title,
+//   &_completed &_desk {
+//     text-decoration: line-through;
+//   }
+// }
 
 @media screen and (max-width: 770px) {
   .board__btn_wrapper {
