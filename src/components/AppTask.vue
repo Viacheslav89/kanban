@@ -39,7 +39,7 @@
     <select 
     v-model="task.status"
     class="task__status"
-    @change="editTask( task.status, task )"
+    @change="editTask( task )"
     >
       <option value="К выполнению" :selected="task.status === ColumnTitle.ToDo">
         К выполнению

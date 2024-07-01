@@ -24,7 +24,7 @@ import { ref } from "vue";
 import { Task } from "../types";
 import { useTasks } from "../composables/useTasks";
 
-import AppColumns from "./AppColumns.vue";
+import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 
 const { tasks } = useTasks();

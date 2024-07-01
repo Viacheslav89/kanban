@@ -14,18 +14,11 @@ export const useTasks = () => {
     localStorage.setItem("taskId", JSON.stringify(newTask.id));
   };
 
-  const editTask = (taskStatus: string, formData: Task) => {
-    // const value = (event.target as HTMLInputElement).value;
-    const newTask = {
-      ...formData,
-    status: taskStatus,
-    };
-
-
+  const editTask = ( formData: Task) => {
     const idxEditTask = tasks.value.findIndex(
       (task) => task.id === formData.id
     );
-    tasks.value.splice(idxEditTask, 1, newTask);
+    tasks.value.splice(idxEditTask, 1, formData);
     localStorage.setItem("tasks", JSON.stringify(tasks.value));
   };
   

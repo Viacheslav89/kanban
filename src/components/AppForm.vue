@@ -117,10 +117,9 @@ const isNotFilledForm = () => {
 const createdTask = () => {
   if (!isNotFilledForm()) {
     if (props.isEditTask) {
-      editTask( formData.value.status, formData.value);
+      editTask(  formData.value);
     } else {
       createTask(formData.value);
-      // localStorage.setItem("tasks", JSON.stringify(tasks.value));
     }
     closerForm();
   }
