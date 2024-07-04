@@ -9,3 +9,7 @@ export interface Task {
     isEdit: boolean;
   }
   
+  export interface Column {
+    name: string;
+    id: number;
+  }

@@ -56,10 +56,10 @@
         </div>
       </div>
       <div class="form__btn--wrapper">
-        <button class="form__btn btn" @click="createdTask">
-          {{ editCreateBtn }}
+        <button class="form__btn btn" @click="takeTask">
+          {{ editCreateTitle }}
         </button>
-        <button class="form__btn btn" @click="closerForm">Отменить</button>
+        <button class="form__btn btn" @click="onClose">Отменить</button>
       </div>
     </div>
     <div class="form__overloy"></div>
@@ -94,7 +94,7 @@ let formData = ref(
 );
 
 let isNotFilledInput = ref({ name: false, desk: false });
-const editCreateBtn = props.isEditTask ? "Редактировать" : "Создать";
+const editCreateTitle = props.isEditTask ? "Редактировать" : "Создать";
 const { createTask, editTask } = useTasks();
 
 const emit = defineEmits<{
@@ -114,34 +114,34 @@ const isNotFilledForm = () => {
   return false;
 };
 
-const createdTask = () => {
+const takeTask = () => {
   if (!isNotFilledForm()) {
     if (props.isEditTask) {
-      editTask(  formData.value);
+      editTask( formData.value );
     } else {
-      createTask(formData.value);
+      createTask( formData.value );
     }
-    closerForm();
+    onClose();
   }
 };
 
-const closerForm = () => {
+const onClose = () => {
   emit("closerForm");
 };
 
-// watch(tasks, () => {
-//   console.log('ww')
-//   localStorage.setItem("tasks", JSON.stringify(tasks.value));
-// });
 </script>
 
+
 <style scoped lang="scss">
+
 .form {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  // background-color: rgb(35, 228, 212);
+
 }
 
 .form__wrapper {
@@ -222,6 +222,7 @@ const closerForm = () => {
 
 .form__select {
   width: 100%;
+  border-radius: 5px;
   min-height: 25px;
   margin-bottom: 25px;
 }

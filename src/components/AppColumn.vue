@@ -1,14 +1,19 @@
 <template>
   <ul class="board__desk_wrapper">
-    <li v-for="column in boardColumns" class="board__column">
-      <h2 class="column__title">{{ column }}</h2>
-      <ul class="board__desk">
+    <li
+      v-for="column in boardColumns"
+      class="board__column"
+      :key="column.id"
+    >
+      <h2 class="column__title">{{ column.name }}</h2>
+      <ul class="column__desk">
         <AppTask
-          v-for="taskItem in getTasksColumnStatus(column)"
+          v-for="taskItem in getTasksColumnStatus(column.name)"
           :key="taskItem.id"
-          :column="column"
+          :column="column.name"
           :task="taskItem"
-          @editedTask="editedTask(taskItem)"
+          :ColumnTitle="ColumnTitle"
+          @edited-task="editedTask(taskItem)"
         />
       </ul>
     </li>
@@ -17,18 +22,29 @@
 
 <script setup lang="ts">
 // import { ref } from "vue";
-import { Task } from "../types";
+import { Task, Column } from "../types";
 import { useTasks } from "../composables/useTasks";
 
 import AppTask from "./AppTask.vue";
 
 const { tasks } = useTasks();
 
+enum ColumnTitle {
+  ToDo = "К выполнению",
+  Doing = "В работе",
+  Done = "Выполнено",
+}
+
 const emit = defineEmits<{
   (e: "editedTask", currentTask: Task): void;
 }>();
 
-const boardColumns = ["К выполнению", "В работе", "Выполнено"];
+
+const boardColumns: Column[] = [
+  { name: ColumnTitle.ToDo, id: 1 },
+  { name: ColumnTitle.Doing, id: 2 },
+  { name: ColumnTitle.Done, id: 3 },
+];
 
 const getTasksColumnStatus = (column: string): Task[] => {
   return tasks.value.filter((task) => task.status === column);
@@ -38,6 +54,7 @@ const editedTask = (currentTask: Task) => {
   emit("editedTask", currentTask);
 };
 </script>
+
 
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);
@@ -57,13 +74,14 @@ $color-border: rgb(78, 67, 67);
 }
 
 .column__title {
-  padding: 10px;
   margin: 0;
+  font-size: 20px;
+  padding: 10px;
   text-align: center;
   border-bottom: 4px solid $color-border;
 }
 
-.board__desk {
+.column__desk {
   padding: 15px;
   min-height: 200px;
 }
@@ -72,35 +90,18 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 550px) {
-  .board__desk {
+  .column__desk {
     padding: 10px;
-    min-height: 200px;
-  }
-
-  .board__task {
-    padding-left: 5px;
-    font-size: 12px;
   }
 
   .column__title {
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
-  .board__title {
-    width: 205px;
-    font-size: 32px;
-  }
-
-  .board__btn_wrapper {
-    width: 320px;
+    font-size: 15px;
   }
 }
 
 @media screen and (max-width: 361px) {
-  .board__task {
-    padding-left: 5px;
-    font-size: 10px;
+  .column__title {
+    font-size: 12px;
   }
 }
 </style>

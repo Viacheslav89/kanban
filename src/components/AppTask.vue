@@ -1,10 +1,10 @@
 <template>
   <li
+    class="task"
     :class="{
-      board__task: true,
-      board__task_blue: isTask(task),
-      board__task_red: isBug(task),
-      board__task_completed: isCompleted(task),
+      task_blue: isTask(task),
+      task_red: isBug(task),
+      // board__task_completed: isCompleted(task),
     }"
   >
     <div class="task__header">
@@ -23,7 +23,7 @@
 
     <div class="task__deadline_wrapper">
       <p
-        v-if="task.status !== ColumnTitle.Done"
+        v-if="!isStatusColumn(task.status, ColumnTitle.Done)"
         :class="{
           task__deadline: true,
           task__deadline_end: getDeadline(task.deadline, column),
@@ -31,7 +31,7 @@
       >
         {{ task.deadline }}
       </p>
-      <b v-if="column === ColumnTitle.Done" class="task__ready"> Завершено </b>
+      <b v-if="isStatusColumn(column, ColumnTitle.Done)" class="task__ready"> Завершено </b>
     </div>
 
     <p class="task__user">{{ task.user }}</p>
@@ -41,13 +41,13 @@
     class="task__status"
     @change="editTask( task )"
     >
-      <option value="К выполнению" :selected="task.status === ColumnTitle.ToDo">
+      <option value="К выполнению" :selected="isStatusColumn(task.status, ColumnTitle.ToDo)">
         К выполнению
       </option>
-      <option value="В работе" :selected="task.status === ColumnTitle.Doing">
+      <option value="В работе" :selected="isStatusColumn(task.status, ColumnTitle.Doing)">
         В работе
       </option>
-      <option value="Выполнено" :selected="task.status === ColumnTitle.Done">
+      <option value="Выполнено" :selected="isStatusColumn(task.status, ColumnTitle.Done)">
         Выполнено
       </option>
     </select>
@@ -60,20 +60,19 @@ import { Task } from "../types";
 import { useTasks } from "../composables/useTasks";
 
 
-enum ColumnTitle {
-  ToDo = "К выполнению",
-  Doing = "В работе",
-  Done = "Выполнено",
-}
-
-defineProps<{
+const props = defineProps<{
   task: Task;
   column: string;
+  ColumnTitle: any;
 }>();
 
 enum TaskType {
   Task = "Задача",
   Bug = "Баг",
+}
+
+const isStatusColumn = (statusTask: string, columnTitle: string) => {
+  return statusTask === columnTitle;
 }
 
 const isBug = (task: Task) => {
@@ -84,15 +83,14 @@ const isTask = (task: Task) => {
   return task.type === TaskType.Task;
 };
 
-const isCompleted = (task: Task) => {
-  return task.status === "Выполнено";
-};
-
+// const isCompleted = (task: Task) => {
+//   return task.status === props.ColumnTitle.Done;
+// };
 
 const getDeadline = (deadline: string, column: string) => {
   return (
     Date.parse(deadline) + 86400000 < new Date().getTime() &&
-    column !== ColumnTitle.Done
+    column !== props.ColumnTitle.Done
   );
 };
 
@@ -115,30 +113,21 @@ watch(tasks, () => {
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);
 
-.board__task {
+.task {
   padding-left: 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-bottom: 10px;
+  list-style: none;
 
   &_blue {
     background-color: rgb(85, 108, 243);
-    list-style: none;
   }
 
   &_red {
     background-color: rgb(236, 58, 58);
-    list-style: none;
-  }
-
-  &_completed &_title,
-  &_completed &_desk {
-    text-decoration: line-through;
   }
 }
 
-.board__task {
-  list-style-type: none;
-}
 
 .task__header {
   display: flex;

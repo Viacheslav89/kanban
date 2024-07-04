@@ -13,7 +13,7 @@
 
   <AppForm
     v-if="isOpenForm"
-    :isEditTask="isEditTask"
+    :is-edit-task="isEditTask"
     :task="editableTask"
     @closer-form="cancelForm"
   />
@@ -69,7 +69,6 @@ $color-border: rgb(78, 67, 67);
   width: 250px;
   font-size: 38px;
   color: rgb(59, 51, 51);
-  white-space: nowrap;
 }
 
 .board__btn_wrapper {
@@ -78,6 +77,13 @@ $color-border: rgb(78, 67, 67);
   padding: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+.board__btn {
+  margin: 10px 3px 10px 3px;
+  border-radius: 10px;
+  height: 35px;
+  width: 100%;
 }
 
 .btn {
@@ -96,97 +102,14 @@ $color-border: rgb(78, 67, 67);
   }
 }
 
-.board__btn {
-  margin-top: 10px;
-  margin-left: 5px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  height: 35px;
-  width: 100%;
-}
-
-// .board__desk_wrapper {
-//   margin: 0;
-//   padding: 0 25px 0 25px;
-//   display: flex;
-//   justify-content: center;
-// }
-
-// .board__column {
-//   width: 100%;
-//   list-style: none;
-//   background-color: bisque;
-//   border: 2px solid $color-border;
-// }
-
-// .column__title {
-//   padding: 10px;
-//   margin: 0;
-//   text-align: center;
-//   border-bottom: 4px solid $color-border;
-// }
-
-// .board__desk {
-//   padding: 15px;
-//   min-height: 200px;
-// }
-
-// .board__task {
-//   padding-left: 10px;
-//   border-radius: 5px;
-//   margin-bottom: 10px;
-
-//   &_blue {
-//     background-color: rgb(85, 108, 243);
-//     list-style: none;
-//   }
-
-//   &_red {
-//     background-color: rgb(236, 58, 58);
-//     list-style: none;
-//   }
-
-//   &_completed &_title,
-//   &_completed &_desk {
-//     text-decoration: line-through;
-//   }
-// }
 
 @media screen and (max-width: 770px) {
   .board__btn_wrapper {
     width: 400px;
   }
-
-  .column__title {
-    font-size: 18px;
-  }
 }
 
 @media screen and (max-width: 550px) {
-  .board__desk {
-  padding: 10px;
-  min-height: 200px;
-}
-
-  .board__task {
-    padding-left: 5px;
-    font-size: 12px;
-  }
-
-  .board__btn {
-    margin-top: 10px;
-    margin-left: 5px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    height: 35px;
-    width: 100%;
-  }
-
-  .column__title {
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
   .board__title {
     width: 205px;
     font-size: 32px;
@@ -198,9 +121,6 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 361px) {
-  .board__task {
-    padding-left: 5px;
-    font-size: 10px;
-  }
+
 }
 </style>
