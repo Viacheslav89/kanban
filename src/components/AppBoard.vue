@@ -5,10 +5,9 @@
       <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
       <button class="board__btn btn" @click="clearLocal">Очистить</button>
     </div>
-    <AppColumns 
-      @edited-task="editedTask"
-    />
-
+    <ul class="board__contents">
+      <AppColumns @edited-task="editedTask" />
+    </ul>
   </div>
 
   <AppForm
@@ -32,7 +31,6 @@ const { tasks } = useTasks();
 const isOpenForm = ref(false);
 let isEditTask = false;
 let editableTask: Task;
-
 
 const clearLocal = (): void => {
   localStorage.clear();
@@ -62,28 +60,35 @@ $color-border: rgb(78, 67, 67);
   border-collapse: collapse;
   margin: 0;
   padding: 0;
-}
 
-.board__title {
-  margin: 20px auto 10px auto;
-  width: 250px;
-  font-size: 38px;
-  color: rgb(59, 51, 51);
-}
+  &__title {
+    margin: 20px auto 10px auto;
+    width: 250px;
+    font-size: 38px;
+    color: rgb(59, 51, 51);
+  }
 
-.board__btn_wrapper {
-  margin: 0 auto;
-  width: 510px;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.board__btn {
-  margin: 10px 3px 10px 3px;
-  border-radius: 10px;
-  height: 35px;
-  width: 100%;
+  &__btn_wrapper {
+    margin: 0 auto;
+    width: 510px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  &__btn {
+    margin: 10px 3px 10px 3px;
+    border-radius: 10px;
+    height: 35px;
+    width: 100%;
+  }
+  
+  &__contents {
+    margin: 0;
+    padding: 0 25px 0 25px;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .btn {
@@ -101,7 +106,6 @@ $color-border: rgb(78, 67, 67);
     transform: scale(1.03);
   }
 }
-
 
 @media screen and (max-width: 770px) {
   .board__btn_wrapper {
@@ -121,6 +125,5 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 361px) {
-
 }
 </style>

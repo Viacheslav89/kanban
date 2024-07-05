@@ -1,27 +1,20 @@
 <template>
-  <ul class="board__desk_wrapper">
-    <li
-      v-for="column in boardColumns"
-      class="board__column"
-      :key="column.id"
-    >
-      <h2 class="column__title">{{ column.name }}</h2>
-      <ul class="column__desk">
-        <AppTask
-          v-for="taskItem in getTasksColumnStatus(column.name)"
-          :key="taskItem.id"
-          :column="column.name"
-          :task="taskItem"
-          :ColumnTitle="ColumnTitle"
-          @edited-task="editedTask(taskItem)"
-        />
-      </ul>
-    </li>
-  </ul>
+  <li v-for="column in boardColumns" class="column" :key="column.id">
+    <h2 class="column__title">{{ column.name }}</h2>
+    <ul class="column__desk">
+      <AppTask
+        v-for="taskItem in getTasksColumnStatus(column.name)"
+        :key="taskItem.id"
+        :column="column.name"
+        :task="taskItem"
+        :ColumnTitle="ColumnTitle"
+        @edited-task="editedTask(taskItem)"
+      />
+    </ul>
+  </li>
 </template>
 
 <script setup lang="ts">
-// import { ref } from "vue";
 import { Task, Column } from "../types";
 import { useTasks } from "../composables/useTasks";
 
@@ -39,7 +32,6 @@ const emit = defineEmits<{
   (e: "editedTask", currentTask: Task): void;
 }>();
 
-
 const boardColumns: Column[] = [
   { name: ColumnTitle.ToDo, id: 1 },
   { name: ColumnTitle.Doing, id: 2 },
@@ -55,35 +47,27 @@ const editedTask = (currentTask: Task) => {
 };
 </script>
 
-
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);
 
-.board__desk_wrapper {
-  margin: 0;
-  padding: 0 25px 0 25px;
-  display: flex;
-  justify-content: center;
-}
-
-.board__column {
+.column {
   width: 100%;
   list-style: none;
   background-color: bisque;
   border: 2px solid $color-border;
-}
 
-.column__title {
-  margin: 0;
-  font-size: 20px;
-  padding: 10px;
-  text-align: center;
-  border-bottom: 4px solid $color-border;
-}
+  &__title {
+    margin: 0;
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 4px solid $color-border;
+  }
 
-.column__desk {
-  padding: 15px;
-  min-height: 200px;
+  &__desk {
+    padding: 15px;
+    min-height: 200px;
+  }
 }
 
 @media screen and (max-width: 770px) {

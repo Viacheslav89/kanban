@@ -2,9 +2,8 @@
   <li
     class="task"
     :class="{
-      task_blue: isTask(task),
-      task_red: isBug(task),
-      // board__task_completed: isCompleted(task),
+      task__type_work: isTask(task),
+      task__type_bag: isBug(task),
     }"
   >
     <div class="task__header">
@@ -31,23 +30,30 @@
       >
         {{ task.deadline }}
       </p>
-      <b v-if="isStatusColumn(column, ColumnTitle.Done)" class="task__ready"> Завершено </b>
+      <b v-if="isStatusColumn(column, ColumnTitle.Done)" class="task__ready">
+        Завершено
+      </b>
     </div>
 
     <p class="task__user">{{ task.user }}</p>
 
-    <select 
-    v-model="task.status"
-    class="task__status"
-    @change="editTask( task )"
-    >
-      <option value="К выполнению" :selected="isStatusColumn(task.status, ColumnTitle.ToDo)">
+    <select v-model="task.status" class="task__status" @change="editTask(task)">
+      <option
+        value="К выполнению"
+        :selected="isStatusColumn(task.status, ColumnTitle.ToDo)"
+      >
         К выполнению
       </option>
-      <option value="В работе" :selected="isStatusColumn(task.status, ColumnTitle.Doing)">
+      <option
+        value="В работе"
+        :selected="isStatusColumn(task.status, ColumnTitle.Doing)"
+      >
         В работе
       </option>
-      <option value="Выполнено" :selected="isStatusColumn(task.status, ColumnTitle.Done)">
+      <option
+        value="Выполнено"
+        :selected="isStatusColumn(task.status, ColumnTitle.Done)"
+      >
         Выполнено
       </option>
     </select>
@@ -58,7 +64,6 @@
 import { watch } from "vue";
 import { Task } from "../types";
 import { useTasks } from "../composables/useTasks";
-
 
 const props = defineProps<{
   task: Task;
@@ -73,7 +78,7 @@ enum TaskType {
 
 const isStatusColumn = (statusTask: string, columnTitle: string) => {
   return statusTask === columnTitle;
-}
+};
 
 const isBug = (task: Task) => {
   return task.type === TaskType.Bug;
@@ -82,10 +87,6 @@ const isBug = (task: Task) => {
 const isTask = (task: Task) => {
   return task.type === TaskType.Task;
 };
-
-// const isCompleted = (task: Task) => {
-//   return task.status === props.ColumnTitle.Done;
-// };
 
 const getDeadline = (deadline: string, column: string) => {
   return (
@@ -119,35 +120,82 @@ $color-border: rgb(78, 67, 67);
   margin-bottom: 10px;
   list-style: none;
 
-  &_blue {
+  &__type_work {
     background-color: rgb(85, 108, 243);
   }
 
-  &_red {
+  &__type_bag {
     background-color: rgb(236, 58, 58);
   }
-}
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 5px 0 0;
+  }
 
-.task__header {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 5px 0 0;
-}
+  &__title {
+    margin: 0;
+    word-break: break-all;
+  }
 
-.task__title {
-  margin: 0;
-  word-break: break-all;
-}
+  &__desk {
+    padding-right: 10px;
+    word-break: break-all;
+  }
 
-.task__desk {
-  padding-right: 10px;
-  word-break: break-all;
-}
+  &__wrapper_btn {
+    display: flex;
+    margin-left: 3px;
+  }
 
-.task__wrapper_btn {
-  display: flex;
-  margin-left: 3px;
+  &__btn_delete {
+    width: 25px;
+    height: 25px;
+    margin-left: 3px;
+  }
+
+  &__btn_change {
+    width: 25px;
+    height: 25px;
+  }
+
+  &__deadline_wrapper {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__deadline {
+    margin: 0;
+    padding: 5px 0 5px 0;
+  }
+
+  &__ready {
+    margin: 0;
+    color: rgb(137, 240, 96);
+    font-size: 18px;
+    padding: 5px 0 5px 0;
+  }
+
+  &__deadline_end {
+    background-color: rgb(128, 33, 33);
+    padding: 5px;
+    border-radius: 7px;
+  }
+
+  &__status {
+    margin-bottom: 8px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    width: auto;
+    background: linear-gradient(
+      90deg,
+      rgb(241, 244, 248) 30%,
+      rgb(149, 159, 167) 100%
+    );
+  }
 }
 
 .btn {
@@ -164,54 +212,6 @@ $color-border: rgb(78, 67, 67);
   &:hover {
     transform: scale(1.03);
   }
-}
-
-.task__btn_delete {
-  width: 25px;
-  height: 25px;
-  margin-left: 3px;
-}
-
-.task__btn_change {
-  width: 25px;
-  height: 25px;
-}
-
-.task__deadline_wrapper {
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.task__deadline {
-  margin: 0;
-  padding: 5px 0 5px 0;
-}
-
-.task__ready {
-  margin: 0;
-  color: rgb(137, 240, 96);
-  font-size: 18px;
-  padding: 5px 0 5px 0;
-}
-
-.task__deadline_end {
-  background-color: rgb(128, 33, 33);
-  padding: 5px;
-  border-radius: 7px;
-}
-
-.task__status {
-  margin-bottom: 8px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 2px;
-  width: auto;
-  background: linear-gradient(
-    90deg,
-    rgb(241, 244, 248) 30%,
-    rgb(149, 159, 167) 100%
-  );
 }
 
 @media screen and (max-width: 570px) {

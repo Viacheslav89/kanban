@@ -117,9 +117,9 @@ const isNotFilledForm = () => {
 const takeTask = () => {
   if (!isNotFilledForm()) {
     if (props.isEditTask) {
-      editTask( formData.value );
+      editTask(formData.value);
     } else {
-      createTask( formData.value );
+      createTask(formData.value);
     }
     onClose();
   }
@@ -128,70 +128,95 @@ const takeTask = () => {
 const onClose = () => {
   emit("closerForm");
 };
-
 </script>
 
-
 <style scoped lang="scss">
-
 .form {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  // background-color: rgb(35, 228, 212);
 
-}
+  &__wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+    height: 370px;
+    margin: -200px 0 0 -300px;
+    background-color: white;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+  }
 
-.form__wrapper {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 20px;
-  width: 600px;
-  height: 370px;
-  margin: -200px 0 0 -300px;
-  background-color: white;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
-  z-index: 2;
-}
+  &__overloy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.7;
+    z-index: 0;
+  }
 
-.form__overloy {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  opacity: 0.7;
-  z-index: 0;
-}
+  &__desc {
+    margin-bottom: 10px;
+  }
 
-.form__desc {
-  margin-bottom: 10px;
-}
+  &__input {
+    padding-left: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 30px;
+    width: 98%;
+  }
 
-.form__input {
-  padding-left: 10px;
-  border: 1px solid black;
-  border-radius: 5px;
-  min-height: 30px;
-  width: 98%;
-}
+  &__name_filled {
+    animation-name: shake;
+    animation-duration: 0.5s;
+    animation-iteration-count: 2;
+  }
 
-.form__name_filled {
-  animation-name: shake;
-  animation-duration: 0.5s;
-  animation-iteration-count: 2;
-}
+  &__desk_filled {
+    animation-name: shake;
+    animation-duration: 0.5s;
+    animation-iteration-count: 2;
+  }
 
-.form__desk_filled {
-  animation-name: shake;
-  animation-duration: 0.5s;
-  animation-iteration-count: 2;
+  &__selects_wrapper {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__select_wrapper {
+    width: 100%;
+  }
+
+  &__select {
+    width: 100%;
+    border-radius: 5px;
+    min-height: 25px;
+    margin-bottom: 25px;
+  }
+
+  &__btn--wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  &__btn {
+    border-radius: 10px;
+    height: 30px;
+    width: 200px;
+  }
 }
 
 @keyframes shake {
@@ -207,36 +232,6 @@ const onClose = () => {
   30% {
     transform: translate(-2px, 0px);
   }
-}
-
-.form__selects_wrapper {
-  padding-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.form__select_wrapper {
-  width: 100%;
-}
-
-.form__select {
-  width: 100%;
-  border-radius: 5px;
-  min-height: 25px;
-  margin-bottom: 25px;
-}
-
-.form__btn--wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.form__btn {
-  border-radius: 10px;
-  height: 30px;
-  width: 200px;
 }
 
 @media screen and (max-width: 770px) {
