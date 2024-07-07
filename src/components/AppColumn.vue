@@ -7,7 +7,6 @@
         :key="taskItem.id"
         :column="column.name"
         :task="taskItem"
-        :ColumnTitle="ColumnTitle"
         @edited-task="editedTask(taskItem)"
       />
     </ul>
@@ -16,17 +15,12 @@
 
 <script setup lang="ts">
 import { Task, Column } from "../types";
+import { ColumnTitle } from "../enums";
 import { useTasks } from "../composables/useTasks";
 
 import AppTask from "./AppTask.vue";
 
 const { tasks } = useTasks();
-
-enum ColumnTitle {
-  ToDo = "К выполнению",
-  Doing = "В работе",
-  Done = "Выполнено",
-}
 
 const emit = defineEmits<{
   (e: "editedTask", currentTask: Task): void;

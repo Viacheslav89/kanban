@@ -87,13 +87,14 @@ const initTask: Task = {
   isEdit: false,
 };
 
-let formData = ref(
+const formData = ref(
   props.isEditTask && props.task
-    ? { ...props.task, isEdit: true }
-    : { ...initTask }
+  ? { ...props.task, isEdit: true }
+  : { ...initTask }
 );
 
-let isNotFilledInput = ref({ name: false, desk: false });
+
+const isNotFilledInput = ref({ name: false, desk: false });
 const editCreateTitle = props.isEditTask ? "Редактировать" : "Создать";
 const { createTask, editTask } = useTasks();
 

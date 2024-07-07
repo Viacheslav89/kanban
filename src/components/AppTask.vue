@@ -23,8 +23,8 @@
     <div class="task__deadline_wrapper">
       <p
         v-if="!isStatusColumn(task.status, ColumnTitle.Done)"
+        class="task__deadline"
         :class="{
-          task__deadline: true,
           task__deadline_end: getDeadline(task.deadline, column),
         }"
       >
@@ -61,14 +61,13 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
 import { Task } from "../types";
+import { ColumnTitle } from "../enums";
 import { useTasks } from "../composables/useTasks";
 
-const props = defineProps<{
+defineProps<{
   task: Task;
   column: string;
-  ColumnTitle: any;
 }>();
 
 enum TaskType {
@@ -91,7 +90,7 @@ const isTask = (task: Task) => {
 const getDeadline = (deadline: string, column: string) => {
   return (
     Date.parse(deadline) + 86400000 < new Date().getTime() &&
-    column !== props.ColumnTitle.Done
+    column !== ColumnTitle.Done
   );
 };
 
@@ -99,16 +98,12 @@ const emit = defineEmits<{
   (e: "editedTask", currentTask: Task): void;
 }>();
 
-const { tasks, editTask, deleteTask } = useTasks();
+const { editTask, deleteTask } = useTasks();
 
 const editedTask = (currentTask: Task): void => {
   emit("editedTask", currentTask);
 };
 
-watch(tasks, () => {
-  console.log("watch");
-  localStorage.setItem("tasks", JSON.stringify(tasks.value));
-});
 </script>
 
 <style scoped lang="scss">

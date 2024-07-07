@@ -22,7 +22,6 @@ export const useTasks = () => {
     localStorage.setItem("tasks", JSON.stringify(tasks.value));
   };
   
-  
   const deleteTask = (taskId: number) => {
     tasks.value = tasks.value.filter((task) => task.id !== taskId);
   };
@@ -34,14 +33,3 @@ export const useTasks = () => {
     deleteTask
   };
 };
-
-// const updateStorage = (): void => {
-//   localStorage.setItem("tasks", JSON.stringify(tasks.value));
-//   localStorage.setItem("taskId", JSON.stringify(taskId || 1));
-// };
-
-// watch(tasks.value, (nweValue, oldValue) => {
-//   // updateStorage();
-//   console.log(nweValue, oldValue);
-//   localStorage.setItem("tasks", JSON.stringify(tasks.value));
-// });
