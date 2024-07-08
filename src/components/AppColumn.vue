@@ -14,8 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { Task, Column } from "../types";
-import { ColumnTitle } from "../enums";
+import { Task, Column, ColumnId } from "../types";
 import { useTasks } from "../composables/useTasks";
 
 import AppTask from "./AppTask.vue";
@@ -27,9 +26,9 @@ const emit = defineEmits<{
 }>();
 
 const boardColumns: Column[] = [
-  { name: ColumnTitle.ToDo, id: 1 },
-  { name: ColumnTitle.Doing, id: 2 },
-  { name: ColumnTitle.Done, id: 3 },
+  { name: "К выполнению", id: ColumnId.ToDo },
+  { name: "В работе", id: ColumnId.Doing },
+  { name: "Выполнено", id: ColumnId.Done },
 ];
 
 const getTasksColumnStatus = (column: string): Task[] => {

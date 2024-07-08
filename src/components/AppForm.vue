@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { Task } from "../types";
 import { useTasks } from "../composables/useTasks";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps<{
   isEditTask: boolean;
@@ -87,16 +87,21 @@ const initTask: Task = {
   isEdit: false,
 };
 
-const formData = ref(
-  props.isEditTask && props.task
-  ? { ...props.task, isEdit: true }
-  : { ...initTask }
-);
+const formData = ref({ ...initTask });
 
+watch(
+  () => props.task,
+  (oldTask: Task | undefined) => {
+    if (oldTask && props.isEditTask) {
+      formData.value = { ...oldTask, isEdit: true };
+    }
+  },
+  { immediate: true }
+);
 
 const isNotFilledInput = ref({ name: false, desk: false });
 const editCreateTitle = props.isEditTask ? "Редактировать" : "Создать";
-const { createTask, editTask } = useTasks();
+const { tasks, createTask, editTask } = useTasks();
 
 const emit = defineEmits<{
   (e: "closerForm"): void;
@@ -129,6 +134,10 @@ const takeTask = () => {
 const onClose = () => {
   emit("closerForm");
 };
+
+watch(tasks.value, () => {
+  console.log('sd')
+})
 </script>
 
 <style scoped lang="scss">

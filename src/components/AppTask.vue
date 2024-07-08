@@ -61,8 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import { Task } from "../types";
-import { ColumnTitle } from "../enums";
+import { Task, ColumnTitle } from "../types";
+
 import { useTasks } from "../composables/useTasks";
 
 defineProps<{

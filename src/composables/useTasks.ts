@@ -24,6 +24,7 @@ export const useTasks = () => {
   
   const deleteTask = (taskId: number) => {
     tasks.value = tasks.value.filter((task) => task.id !== taskId);
+    localStorage.setItem("tasks", JSON.stringify(tasks.value));
   };
 
   return {
