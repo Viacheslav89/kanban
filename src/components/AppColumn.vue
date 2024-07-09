@@ -64,6 +64,10 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 770px) {
+  .column__title {
+    font-size: 15px;
+    padding: 10px 5px 10px 5px;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -73,6 +77,14 @@ $color-border: rgb(78, 67, 67);
 
   .column__title {
     font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .column__title {
+    font-size: 12px;
+    padding: 10px 2px 10px 2px;
+
   }
 }
 

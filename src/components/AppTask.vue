@@ -103,7 +103,6 @@ const { editTask, deleteTask } = useTasks();
 const editedTask = (currentTask: Task): void => {
   emit("editedTask", currentTask);
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -210,77 +209,90 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 570px) {
-  .task__btn_delete {
-    width: 23px;
-    height: 23px;
-    font-size: 9px;
-    margin-left: 2px;
-  }
-
-  .task__btn_change {
-    width: 23px;
-    height: 23px;
-    font-size: 9px;
-  }
-
-  .task__status {
-    width: 110px;
+  .task {
     font-size: 12px;
-  }
 
-  .task__ready {
-    font-size: 15px;
+    &__btn_delete {
+      width: 23px;
+      height: 23px;
+      font-size: 9px;
+      margin-left: 2px;
+    }
+
+    &__btn_change {
+      width: 23px;
+      height: 23px;
+      font-size: 9px;
+    }
+
+    &__status {
+      width: 110px;
+      font-size: 11px;
+    }
+
+    &__ready {
+      font-size: 15px;
+    }
   }
 }
 
 @media screen and (max-width: 490px) {
-  .task__btn_delete {
-    width: 18px;
-    height: 18px;
-    font-size: 8px;
-    margin-left: 0;
-  }
+  .task {
+    font-size: 11px;
 
-  .task__btn_change {
-    width: 18px;
-    height: 18px;
-    font-size: 8px;
-  }
+    &__btn_delete {
+      width: 18px;
+      height: 18px;
+      font-size: 8px;
+      margin-left: 0;
+    }
 
-  .task__status {
-    font-size: 10px;
-    width: 70px;
-  }
+    &__btn_change {
+      width: 18px;
+      height: 18px;
+      font-size: 8px;
+    }
 
-  .task__ready {
-    font-size: 12px;
+    &__status {
+      font-size: 9px;
+      width: 70px;
+    }
+
+    &__ready {
+      font-size: 11px;
+    }
   }
 }
 
 @media screen and (max-width: 400px) {
-  .task__header {
-    padding: 3px;
-  }
+  .task {
+    font-size: 10px;
 
-  .task__btn_delete {
-    width: 18px;
-    height: 18px;
-    font-size: 7px;
-    margin-left: 0;
-  }
+    &__header {
+      padding: 3px;
+    }
 
-  .task__btn_change {
-    width: 18px;
-    height: 18px;
-    font-size: 8px;
-  }
+    &__btn_delete {
+      width: 18px;
+      height: 18px;
+      font-size: 7px;
+      margin-left: 0;
+    }
 
-  .task__status {
-    width: 60px;
-  }
+    &__btn_change {
+      width: 18px;
+      height: 18px;
+      font-size: 8px;
+    }
 
-  .task__ready {
-    font-size: 12px;
+    &__status {
+      width: 60px;
+      font-size: 8px;
+    }
+
+    &__ready {
+      font-size: 10px;
+    }
   }
 }
 </style>
