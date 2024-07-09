@@ -211,6 +211,8 @@ $color-border: rgb(78, 67, 67);
 @media screen and (max-width: 570px) {
   .task {
     font-size: 12px;
+    padding-left: 8px;
+
 
     &__btn_delete {
       width: 23px;
@@ -267,6 +269,8 @@ $color-border: rgb(78, 67, 67);
 @media screen and (max-width: 400px) {
   .task {
     font-size: 10px;
+    padding-left: 5px;
+
 
     &__header {
       padding: 3px;
@@ -293,6 +297,12 @@ $color-border: rgb(78, 67, 67);
     &__ready {
       font-size: 10px;
     }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .task {
+    font-size: 8px;
   }
 }
 </style>
