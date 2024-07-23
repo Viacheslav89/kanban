@@ -1,25 +1,23 @@
 <template>
   <div class="board">
     <h1 class="board__title">Kanban board</h1>
-    <div class="board__btn_wrapper">
+    <div class="board__btn--wrapper">
       <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
       <button class="board__btn btn" @click="clearLocal">Очистить</button>
     </div>
     <ul class="board__contents">
-      <AppColumns @edited-task="editedTask" />
+      <li v-for="column in boardColumns" class="column" :key="column.id">
+        <AppColumns @edited-task="editedTask" :column="column" />
+      </li>
     </ul>
   </div>
 
-  <AppForm
-    v-if="isOpenForm"
-    :task="editableTask"
-    @close="cancelForm"
-  />
+  <AppForm v-if="isOpenForm" :task="editableTask" @close="cancelForm" />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { Task } from "../types";
+import { Task, Column, ColumnId } from "../types";
 import { useTasks } from "../composables/useTasks";
 
 import AppColumns from "./AppColumn.vue";
@@ -29,6 +27,12 @@ const { tasks } = useTasks();
 
 const isOpenForm = ref(false);
 let editableTask = ref<Task | undefined>(undefined);
+
+const boardColumns: Column[] = [
+  { name: "К выполнению", id: ColumnId.New },
+  { name: "В работе", id: ColumnId.inProgress },
+  { name: "Выполнено", id: ColumnId.Done },
+];
 
 const clearLocal = (): void => {
   localStorage.clear();
@@ -66,27 +70,34 @@ $color-border: rgb(78, 67, 67);
     color: rgb(59, 51, 51);
   }
 
-  &__btn_wrapper {
+  &__btn--wrapper {
     margin: 0 auto;
     width: 510px;
     padding: 10px;
     display: flex;
     justify-content: space-between;
   }
-  
+
   &__btn {
     margin: 10px 3px 10px 3px;
     border-radius: 10px;
     height: 35px;
     width: 100%;
   }
-  
+
   &__contents {
     margin: 0;
     padding: 0 25px 0 25px;
     display: flex;
     justify-content: center;
   }
+}
+
+.column {
+  width: 100%;
+  list-style: none;
+  background-color: bisque;
+  border: 2px solid $color-border;
 }
 
 .btn {
@@ -106,7 +117,7 @@ $color-border: rgb(78, 67, 67);
 }
 
 @media screen and (max-width: 770px) {
-  .board__btn_wrapper {
+  .board__btn--wrapper {
     width: 400px;
   }
 }
@@ -117,7 +128,7 @@ $color-border: rgb(78, 67, 67);
     font-size: 32px;
   }
 
-  .board__btn_wrapper {
+  .board__btn--wrapper {
     width: 320px;
   }
 }

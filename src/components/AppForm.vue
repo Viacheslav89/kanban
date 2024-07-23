@@ -5,12 +5,11 @@
       <p class="form__desc">
         Название задачи: <br />
         <input
+          class="form__input"
           :class="{
-            form__input: true,
-            form__desk_filled: isNotFilledInput.name,
+            'form__desk--filled': isNotFilledInput.name,
           }"
           v-model="formData.name"
-          class="form__input"
           type="text"
           placeholder="Покормить кота"
         />
@@ -18,9 +17,9 @@
       <p class="form__desc">
         Описание: <br />
         <input
+          class="form__input"
           :class="{
-            form__input: true,
-            form__desk_filled: isNotFilledInput.desk,
+            'form__desk--filled': isNotFilledInput.desk,
           }"
           v-model="formData.desk"
           type="text"
@@ -30,15 +29,15 @@
       <p class="form__desc">
         Дедлайн: <br />
         <input
-          v-model="formData.deadline"
           class="form__input"
+          v-model="formData.deadline"
           type="date"
           min=""
           max="2026-12-31"
         />
       </p>
-      <div class="form__selects_wrapper">
-        <div class="form__select_wrapper">
+      <div class="form__selects--wrapper">
+        <div class="form__select--wrapper">
           Вид задачи:
           <select class="form__select" name="select" v-model="formData.type">
             <option value="Задача">Задача</option>
@@ -62,7 +61,7 @@
         <button class="form__btn btn" @click="onClose">Отменить</button>
       </div>
     </div>
-    <div class="form__overloy"></div>
+    <div class="form__overlay"></div>
   </div>
 </template>
 
@@ -101,20 +100,20 @@ watch(
 
 const isNotFilledInput = ref({ name: false, desk: false });
 const editCreateTitle = props.task ? "Редактировать" : "Создать";
-const { tasks, createTask, editTask } = useTasks();
+const { createTask, editTask } = useTasks();
 
 const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
 const isNotFilledForm = () => {
-  if (formData.value.name === "") {
+  if (!formData.value.name) {
     isNotFilledInput.value.name = true;
   }
-  if (formData.value.desk === "") {
+  if (!formData.value.desk) {
     isNotFilledInput.value.desk = true;
   }
-  if (formData.value.desk === "" || formData.value.name === "") {
+  if (!formData.value.desk || !formData.value.name) {
     return true;
   }
   return false;
@@ -134,10 +133,6 @@ const takeTask = () => {
 const onClose = () => {
   emit("close");
 };
-
-watch(tasks.value, () => {
-  console.log("sd");
-});
 </script>
 
 <style scoped lang="scss">
@@ -163,7 +158,7 @@ watch(tasks.value, () => {
     z-index: 2;
   }
 
-  &__overloy {
+  &__overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -186,26 +181,26 @@ watch(tasks.value, () => {
     width: 98%;
   }
 
-  &__name_filled {
+  &__name--filled {
     animation-name: shake;
     animation-duration: 0.5s;
     animation-iteration-count: 2;
   }
 
-  &__desk_filled {
+  &__desk--filled {
     animation-name: shake;
     animation-duration: 0.5s;
     animation-iteration-count: 2;
   }
 
-  &__selects_wrapper {
+  &__selects--wrapper {
     padding-top: 10px;
     display: flex;
     justify-content: space-between;
     gap: 20px;
   }
 
-  &__select_wrapper {
+  &__select--wrapper {
     width: 100%;
   }
 

@@ -8,11 +8,11 @@
   >
     <div class="task__header">
       <h3 class="task__title">{{ task.name }}</h3>
-      <div class="task__wrapper_btn">
-        <button class="task__btn_change btn" @click="editedTask(task)">
+      <div class="task__wrapper--btn">
+        <button class="task__btn--change btn" @click="editedTask(task)">
           ..
         </button>
-        <button class="task__btn_delete btn" @click="deleteTask(task.id)">
+        <button class="task__btn--delete btn" @click="deleteTask(task.id)">
           Х
         </button>
       </div>
@@ -40,13 +40,13 @@
     <select v-model="task.status" class="task__status" @change="editTask(task)">
       <option
         value="К выполнению"
-        :selected="isStatusColumn(task.status, ColumnTitle.ToDo)"
+        :selected="isStatusColumn(task.status, ColumnTitle.New)"
       >
         К выполнению
       </option>
       <option
         value="В работе"
-        :selected="isStatusColumn(task.status, ColumnTitle.Doing)"
+        :selected="isStatusColumn(task.status, ColumnTitle.inProgress)"
       >
         В работе
       </option>
@@ -138,12 +138,12 @@ $color-border: rgb(78, 67, 67);
     word-break: break-all;
   }
 
-  &__wrapper_btn {
+  &__wrapper--btn {
     display: flex;
     margin-left: 3px;
   }
 
-  &__btn_delete {
+  &__btn--delete {
     width: 25px;
     height: 25px;
     margin-left: 3px;
@@ -154,7 +154,7 @@ $color-border: rgb(78, 67, 67);
     height: 25px;
   }
 
-  &__deadline_wrapper {
+  &__deadline--wrapper {
     margin: 0;
     display: flex;
     justify-content: space-between;
@@ -172,7 +172,7 @@ $color-border: rgb(78, 67, 67);
     padding: 5px 0 5px 0;
   }
 
-  &__deadline_end {
+  &__deadline--end {
     background-color: rgb(128, 33, 33);
     padding: 5px;
     border-radius: 7px;
@@ -213,15 +213,14 @@ $color-border: rgb(78, 67, 67);
     font-size: 12px;
     padding-left: 8px;
 
-
-    &__btn_delete {
+    &__btn--delete {
       width: 23px;
       height: 23px;
       font-size: 9px;
       margin-left: 2px;
     }
 
-    &__btn_change {
+    &__btn--change {
       width: 23px;
       height: 23px;
       font-size: 9px;
@@ -242,14 +241,14 @@ $color-border: rgb(78, 67, 67);
   .task {
     font-size: 12px;
 
-    &__btn_delete {
+    &__btn--delete {
       width: 20px;
       height: 20px;
       font-size: 8px;
       margin-left: 0;
     }
 
-    &__btn_change {
+    &__btn--change {
       width: 20px;
       height: 20px;
       font-size: 8px;
@@ -271,12 +270,12 @@ $color-border: rgb(78, 67, 67);
     font-size: 11px;
     padding-left: 5px;
 
-    &__btn_delete {
+    &__btn--delete {
       width: 18px;
       height: 18px;
     }
 
-    &__btn_change {
+    &__btn--change {
       width: 18px;
       height: 18px;
       font-size: 8px;
@@ -286,12 +285,12 @@ $color-border: rgb(78, 67, 67);
       padding: 3px;
     }
 
-    &__btn_delete {
+    &__btn--delete {
       font-size: 7px;
       margin-left: 0;
     }
 
-    &__btn_change {
+    &__btn--change {
       font-size: 8px;
     }
 

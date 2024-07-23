@@ -14,13 +14,13 @@ export interface Task {
   }
 
   export enum ColumnTitle {
-    ToDo = "К выполнению",
-    Doing = "В работе",
+    New = "К выполнению",
+    inProgress = "В работе",
     Done = "Выполнено",
   }
 
   export enum ColumnId {
-    ToDo = 1,
-    Doing = 2,
+    New = 1,
+    inProgress = 2,
     Done = 3,
   }
