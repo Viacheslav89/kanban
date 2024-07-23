@@ -240,24 +240,24 @@ $color-border: rgb(78, 67, 67);
 
 @media screen and (max-width: 490px) {
   .task {
-    font-size: 11px;
+    font-size: 12px;
 
     &__btn_delete {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       font-size: 8px;
       margin-left: 0;
     }
 
     &__btn_change {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       font-size: 8px;
     }
 
     &__status {
       font-size: 9px;
-      width: 70px;
+      width: 75px;
     }
 
     &__ready {
@@ -268,24 +268,30 @@ $color-border: rgb(78, 67, 67);
 
 @media screen and (max-width: 400px) {
   .task {
-    font-size: 10px;
+    font-size: 11px;
     padding-left: 5px;
 
+    &__btn_delete {
+      width: 18px;
+      height: 18px;
+    }
+
+    &__btn_change {
+      width: 18px;
+      height: 18px;
+      font-size: 8px;
+    }
 
     &__header {
       padding: 3px;
     }
 
     &__btn_delete {
-      width: 18px;
-      height: 18px;
       font-size: 7px;
       margin-left: 0;
     }
 
     &__btn_change {
-      width: 18px;
-      height: 18px;
       font-size: 8px;
     }
 
@@ -302,7 +308,7 @@ $color-border: rgb(78, 67, 67);
 
 @media screen and (max-width: 400px) {
   .task {
-    font-size: 8px;
+    font-size: 9px;
   }
 }
 </style>

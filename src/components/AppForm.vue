@@ -72,39 +72,39 @@ import { useTasks } from "../composables/useTasks";
 import { ref, watch } from "vue";
 
 const props = defineProps<{
-  isEditTask: boolean;
   task?: Task;
 }>();
 
-const initTask: Task = {
-  name: "",
-  desk: "",
-  deadline: new Date().toISOString().slice(0, 10),
-  type: "Задача",
-  user: "Не назначен",
-  status: "К выполнению",
-  id: +(localStorage.getItem("taskId") || 1),
-  isEdit: false,
+const initFormData = (): Task => {
+  return {
+    name: "",
+    desk: "",
+    deadline: new Date().toISOString().slice(0, 10),
+    type: "Задача",
+    user: "Не назначен",
+    status: "К выполнению",
+    id: +(localStorage.getItem("taskId") || 1),
+  };
 };
 
-const formData = ref({ ...initTask });
+const formData = ref({ ...initFormData() });
 
 watch(
   () => props.task,
   (oldTask: Task | undefined) => {
-    if (oldTask && props.isEditTask) {
-      formData.value = { ...oldTask, isEdit: true };
+    if (oldTask) {
+      formData.value = { ...oldTask };
     }
   },
   { immediate: true }
 );
 
 const isNotFilledInput = ref({ name: false, desk: false });
-const editCreateTitle = props.isEditTask ? "Редактировать" : "Создать";
+const editCreateTitle = props.task ? "Редактировать" : "Создать";
 const { tasks, createTask, editTask } = useTasks();
 
 const emit = defineEmits<{
-  (e: "closerForm"): void;
+  (e: "close"): void;
 }>();
 
 const isNotFilledForm = () => {
@@ -122,7 +122,7 @@ const isNotFilledForm = () => {
 
 const takeTask = () => {
   if (!isNotFilledForm()) {
-    if (props.isEditTask) {
+    if (props.task) {
       editTask(formData.value);
     } else {
       createTask(formData.value);
@@ -132,12 +132,12 @@ const takeTask = () => {
 };
 
 const onClose = () => {
-  emit("closerForm");
+  emit("close");
 };
 
 watch(tasks.value, () => {
-  console.log('sd')
-})
+  console.log("sd");
+});
 </script>
 
 <style scoped lang="scss">

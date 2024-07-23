@@ -6,7 +6,6 @@ export interface Task {
     user: string;
     status: string;
     id: number;
-    isEdit: boolean;
   }
   
   export interface Column {

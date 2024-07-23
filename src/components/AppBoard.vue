@@ -12,9 +12,8 @@
 
   <AppForm
     v-if="isOpenForm"
-    :is-edit-task="isEditTask"
     :task="editableTask"
-    @closer-form="cancelForm"
+    @close="cancelForm"
   />
 </template>
 
@@ -29,8 +28,7 @@ import AppForm from "./AppForm.vue";
 const { tasks } = useTasks();
 
 const isOpenForm = ref(false);
-let isEditTask = false;
-let editableTask: Task;
+let editableTask = ref<Task | undefined>(undefined);
 
 const clearLocal = (): void => {
   localStorage.clear();
@@ -42,14 +40,13 @@ const toggleForm = (): void => {
 };
 
 const editedTask = (currentTask: Task) => {
-  isEditTask = true;
-  editableTask = currentTask;
+  editableTask.value = currentTask;
   toggleForm();
 };
 
 const cancelForm = () => {
   toggleForm();
-  isEditTask = false;
+  editableTask.value = undefined;
 };
 </script>
 
@@ -65,6 +62,7 @@ $color-border: rgb(78, 67, 67);
     margin: 20px auto 10px auto;
     width: 250px;
     font-size: 38px;
+    white-space: nowrap;
     color: rgb(59, 51, 51);
   }
 
