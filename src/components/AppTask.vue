@@ -227,7 +227,7 @@ $color-border: rgb(78, 67, 67);
     }
 
     &__status {
-      width: 110px;
+      width: 100px;
       font-size: 11px;
     }
 

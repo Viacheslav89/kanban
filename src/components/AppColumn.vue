@@ -43,12 +43,15 @@ $color-border: rgb(78, 67, 67);
   font-size: 20px;
   padding: 10px;
   text-align: center;
-  border-bottom: 4px solid $color-border;
+  border-bottom: 2px solid $color-border;
 }
 
 .column__desk {
   padding: 15px;
   min-height: 200px;
+  // margin-right: -5px;
+  // border-collapse: collapse;
+
 }
 
 @media screen and (max-width: 770px) {

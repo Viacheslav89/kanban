@@ -86,10 +86,12 @@ $color-border: rgb(78, 67, 67);
   }
 
   &__contents {
-    margin: 0;
-    padding: 0 25px 0 25px;
+    padding: 0;
+    margin: 0 40px 0 40px;
     display: flex;
     justify-content: center;
+    border: 1px solid $color-border;
+
   }
 }
 
@@ -97,7 +99,7 @@ $color-border: rgb(78, 67, 67);
   width: 100%;
   list-style: none;
   background-color: bisque;
-  border: 2px solid $color-border;
+  border: 1px solid $color-border;
 }
 
 .btn {
@@ -126,6 +128,10 @@ $color-border: rgb(78, 67, 67);
   .board__title {
     width: 205px;
     font-size: 32px;
+  }
+
+  .board__contents {
+    margin: 0 20px 0 20px;
   }
 
   .board__btn--wrapper {
