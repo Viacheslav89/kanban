@@ -34,12 +34,12 @@ const boardColumns: Column[] = [
   { name: "Выполнено", id: ColumnId.Done },
 ];
 
-const clearLocal = (): void => {
+const clearLocal = () => {
   localStorage.clear();
   tasks.value = [];
 };
 
-const toggleForm = (): void => {
+const toggleForm = () => {
   isOpenForm.value = !isOpenForm.value;
 };
 
