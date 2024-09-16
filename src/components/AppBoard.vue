@@ -7,7 +7,12 @@
     </div>
     <ul class="board__contents">
       <li v-for="column in boardColumns" class="column" :key="column.id">
-        <AppColumns @edited-task="editedTask" :column="column" />
+        <AppColumns
+          @edited-task="editedTask"
+          :column="column"
+          @drop-task="setTask"
+          :task="taskDrop"
+        />
       </li>
     </ul>
   </div>
@@ -27,6 +32,15 @@ const { tasks } = useTasks();
 
 const isOpenForm = ref(false);
 let editableTask = ref<Task | undefined>(undefined);
+const taskDrop = ref<Task>({
+  name: "string",
+  desk: "string",
+  deadline: "string",
+  type: "strng",
+  user: "string",
+  status: "string",
+  id: 888,
+});
 
 const boardColumns: Column[] = [
   { name: "К выполнению", id: ColumnId.New },
@@ -52,10 +66,14 @@ const cancelForm = () => {
   toggleForm();
   editableTask.value = undefined;
 };
+
+const setTask = (task: Task) => {
+  taskDrop.value = task;
+};
 </script>
 
 <style scoped lang="scss">
-$color-border: rgb(78, 67, 67);
+$color-border: rgb(48, 21, 21);
 
 .board {
   border-collapse: collapse;
@@ -91,7 +109,6 @@ $color-border: rgb(78, 67, 67);
     display: flex;
     justify-content: center;
     border: 1px solid $color-border;
-
   }
 }
 

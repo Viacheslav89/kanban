@@ -122,7 +122,7 @@ const isNotFilledForm = () => {
 const takeTask = () => {
   if (!isNotFilledForm()) {
     if (props.task) {
-      editTask(formData.value);
+      editTask(formData.value, formData.value.status);
     } else {
       createTask(formData.value);
     }

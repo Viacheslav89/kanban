@@ -37,7 +37,7 @@
 
     <p class="task__user">{{ task.user }}</p>
 
-    <select v-model="task.status" class="task__status" @change="editTask(task)">
+    <select v-model="task.status" class="task__status" @change="editTask(task, task.status)">
       <option
         value="К выполнению"
         :selected="isStatusColumn(task.status, ColumnTitle.New)"
@@ -62,7 +62,6 @@
 
 <script setup lang="ts">
 import { Task, ColumnTitle } from "../types";
-
 import { useTasks } from "../composables/useTasks";
 
 defineProps<{
@@ -108,11 +107,19 @@ const editedTask = (currentTask: Task): void => {
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);
 
+.column__desk {
+  padding: 15px;
+  min-height: 200px;
+  // margin-right: -5px;
+  // border-collapse: collapse;
+}
+
 .task {
   padding-left: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
   list-style: none;
+  user-select: none;
 
   &__type_work {
     background-color: rgb(85, 108, 243);
@@ -149,7 +156,7 @@ $color-border: rgb(78, 67, 67);
     margin-left: 3px;
   }
 
-  &__btn_change {
+  &__btn--change {
     width: 25px;
     height: 25px;
   }

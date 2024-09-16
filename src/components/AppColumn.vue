@@ -1,29 +1,49 @@
 <template>
   <h2 class="column__title">{{ column.name }}</h2>
-  <ul class="column__desk">
-    <AppTask
-      v-for="taskItem in getTasksColumnStatus(column.name)"
-      :key="taskItem.id"
-      :column="column.name"
-      :task="taskItem"
-      @edited-task="editedTask(taskItem)"
-    />
-  </ul>
+
+  <draggable
+    :list="getTasksColumnStatus(column.name)"
+    tag="ul"
+    class="column__desk"
+    group="tasks"
+    item-key="id"
+    :animation="300"
+    @drop="editTask(task, column.name)"
+  >
+    <template #item="{ element: task }">
+      <transition-group tag="div" type="transition">
+        <AppTask
+          draggable="true"
+          :key="task.id"
+          :column="column.name"
+          :task="task"
+          @edited-task="editedTask(task)"
+          @drop="dropTask(task)"
+        >
+
+        </AppTask>
+      </transition-group>
+    </template>
+  </draggable>
 </template>
+
 
 <script setup lang="ts">
 import { Task, Column } from "../types";
 import { useTasks } from "../composables/useTasks";
 import AppTask from "./AppTask.vue";
+import draggable from "vuedraggable";
 
 defineProps<{
   column: Column;
+  task: Task;
 }>();
 
-const { tasks } = useTasks();
+const { tasks, editTask } = useTasks();
 
 const emit = defineEmits<{
   (e: "editedTask", currentTask: Task): void;
+  (e: "dropTask", column: Task): void;
 }>();
 
 const getTasksColumnStatus = (column: string): Task[] => {
@@ -32,6 +52,10 @@ const getTasksColumnStatus = (column: string): Task[] => {
 
 const editedTask = (currentTask: Task) => {
   emit("editedTask", currentTask);
+};
+
+const dropTask = (task: Task) => {
+  emit("dropTask", task);
 };
 </script>
 
@@ -49,9 +73,6 @@ $color-border: rgb(78, 67, 67);
 .column__desk {
   padding: 15px;
   min-height: 200px;
-  // margin-right: -5px;
-  // border-collapse: collapse;
-
 }
 
 @media screen and (max-width: 770px) {

@@ -14,14 +14,24 @@ export const useTasks = () => {
     localStorage.setItem("taskId", JSON.stringify(newTask.id));
   };
 
-  const editTask = ( formData: Task) => {
+
+
+  const editTask = ( formData: Task, taskStatus: string) => {
     const idxEditTask = tasks.value.findIndex(
       (task) => task.id === formData.id
     );
-    tasks.value.splice(idxEditTask, 1, formData);
+
+    const updateTask = {
+      ...formData,
+      status: taskStatus,
+    }
+
+    tasks.value.splice(idxEditTask, 1, updateTask);
     localStorage.setItem("tasks", JSON.stringify(tasks.value));
   };
   
+
+
   const deleteTask = (taskId: number) => {
     tasks.value = tasks.value.filter((task) => task.id !== taskId);
     localStorage.setItem("tasks", JSON.stringify(tasks.value));
