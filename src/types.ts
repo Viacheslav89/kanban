@@ -14,7 +14,7 @@ export interface Task {
   }
 
   export enum ColumnTitle {
-    New = "К выполнению",
+    New = "Сделать",
     inProgress = "В работе",
     Done = "Выполнено",
   }

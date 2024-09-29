@@ -1,5 +1,13 @@
 <template>
-  <h2 class="column__title">{{ column.name }}</h2>
+  <div class="column__header">
+    <h2 class="column__title">{{ column.name }}</h2>
+    <div class="column__wrapper--btn">
+      <button class="task__btn--edit btn" @click="editColumnTitle(column.id)">..</button>
+      <button class="task__btn--delete btn" @click="deleteColumn(column.id)">
+        Х
+      </button>
+    </div>
+  </div>
 
   <draggable
     :list="getTasksColumnStatus(column.name)"
@@ -20,17 +28,16 @@
           @edited-task="editedTask(task)"
           @drop="dropTask(task)"
         >
-
         </AppTask>
       </transition-group>
     </template>
   </draggable>
 </template>
 
-
 <script setup lang="ts">
 import { Task, Column } from "../types";
 import { useTasks } from "../composables/useTasks";
+import { useColumns } from "../composables/useColumns";
 import AppTask from "./AppTask.vue";
 import draggable from "vuedraggable";
 
@@ -40,8 +47,10 @@ defineProps<{
 }>();
 
 const { tasks, editTask } = useTasks();
+const { deleteColumn } = useColumns();
 
 const emit = defineEmits<{
+  (e: "editedColumnTitle", columnId: number): void;
   (e: "editedTask", currentTask: Task): void;
   (e: "dropTask", column: Task): void;
 }>();
@@ -49,6 +58,10 @@ const emit = defineEmits<{
 const getTasksColumnStatus = (column: string): Task[] => {
   return tasks.value.filter((task) => task.status === column);
 };
+
+const editColumnTitle = (columnId: number) => {
+  emit("editedColumnTitle", columnId);
+}
 
 const editedTask = (currentTask: Task) => {
   emit("editedTask", currentTask);
@@ -62,12 +75,40 @@ const dropTask = (task: Task) => {
 <style scoped lang="scss">
 $color-border: rgb(78, 67, 67);
 
+.column__header {
+  padding: 10px;
+  border-bottom: 2px solid $color-border;
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+}
+
+.column__wrapper--btn {
+  display: flex;
+}
+
 .column__title {
   margin: 0;
   font-size: 20px;
-  padding: 10px;
   text-align: center;
-  border-bottom: 2px solid $color-border;
+}
+
+.btn {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgb(241, 244, 248) 30%,
+    rgb(149, 159, 167) 100%
+  );
+  color: black;
+  cursor: pointer;
+  border: 2px solid $color-border;
+  height: 23px;
+  
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .column__desk {

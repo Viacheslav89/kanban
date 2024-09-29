@@ -38,24 +38,13 @@
     <p class="task__user">{{ task.user }}</p>
 
     <select v-model="task.status" class="task__status" @change="editTask(task, task.status)">
-      <option
-        value="К выполнению"
-        :selected="isStatusColumn(task.status, ColumnTitle.New)"
-      >
-        К выполнению
+      <option v-for="column in boardColumns" 
+        :key="column.id"
+        :value=column.name
+      > 
+        {{ column.name }}
       </option>
-      <option
-        value="В работе"
-        :selected="isStatusColumn(task.status, ColumnTitle.inProgress)"
-      >
-        В работе
-      </option>
-      <option
-        value="Выполнено"
-        :selected="isStatusColumn(task.status, ColumnTitle.Done)"
-      >
-        Выполнено
-      </option>
+
     </select>
   </li>
 </template>
@@ -63,6 +52,9 @@
 <script setup lang="ts">
 import { Task, ColumnTitle } from "../types";
 import { useTasks } from "../composables/useTasks";
+import { useColumns } from "../composables/useColumns";
+
+
 
 defineProps<{
   task: Task;
@@ -98,6 +90,8 @@ const emit = defineEmits<{
 }>();
 
 const { editTask, deleteTask } = useTasks();
+const { boardColumns } = useColumns();
+
 
 const editedTask = (currentTask: Task): void => {
   emit("editedTask", currentTask);
@@ -110,8 +104,6 @@ $color-border: rgb(78, 67, 67);
 .column__desk {
   padding: 15px;
   min-height: 200px;
-  // margin-right: -5px;
-  // border-collapse: collapse;
 }
 
 .task {

@@ -1,139 +1,106 @@
 <template>
   <div class="form">
     <div class="form__wrapper">
-      <h2 class="form__title">Форма</h2>
+
+
+      <h2 class="form__title">Название колонки</h2>
+
       <p class="form__desc">
-        Название задачи: <br />
+
         <input
           class="form__input"
-          :class="{
-            'form__desk--filled': isNotFilledInput.name,
-          }"
           v-model="formData.name"
           type="text"
-          placeholder="Покормить кота"
-        />
-      </p>
-      <p class="form__desc">
-        Описание: <br />
-        <input
-          class="form__input"
           :class="{
-            'form__desk--filled': isNotFilledInput.desk,
+            'form__desk--filled': isNotFilledInput,
           }"
-          v-model="formData.desk"
-          type="text"
-          placeholder="Дать рыбку в обед"
         />
       </p>
-      <p class="form__desc">
-        Дедлайн: <br />
-        <input
-          class="form__input"
-          v-model="formData.deadline"
-          type="date"
-          min=""
-          max="2026-12-31"
-        />
-      </p>
-      <div class="form__selects--wrapper">
-        <div class="form__select--wrapper">
-          Вид задачи:
-          <select class="form__select" name="select" v-model="formData.type">
-            <option value="Задача">Задача</option>
-            <option value="Баг">Баг</option>
-          </select>
-        </div>
 
-        <div class="form__select--wrapper">
-          Исполнитель:
-          <select class="form__select" name="select" v-model="formData.user">
-            <option value="Спанч Боб">Спанч Боб</option>
-            <option value="Патрик">Патрик</option>
-            <option value="Сквидвард">Сквидвард</option>
-          </select>
-        </div>
-      </div>
       <div class="form__btn--wrapper">
-        <button class="form__btn btn" @click="takeTask">
+        <button class="form__btn btn" @click="takeColumn">
           {{ editCreateTitle }}
         </button>
         <button class="form__btn btn" @click="onClose">Отменить</button>
       </div>
+
     </div>
     <div class="form__overlay"></div>
   </div>
 </template>
 
+
+
+
 <script setup lang="ts">
-import { Task } from "../types";
-import { useTasks } from "../composables/useTasks";
+import { Column } from "../types";
+import { useColumns } from "../composables/useColumns";
 import { ref, watch } from "vue";
 
+
 const props = defineProps<{
-  task?: Task;
+  editableColumn?: Column;
 }>();
 
-const initFormData = (): Task => {
+const editCreateTitle = props.editableColumn ? "Редактировать" : "Создать";
+
+const isNotFilledInput = ref(false);
+
+
+const { createColumn, editColumn } = useColumns();
+
+
+const initFormColumnData = (): Column => {
   return {
     name: "",
-    desk: "",
-    deadline: new Date().toISOString().slice(0, 10),
-    type: "Задача",
-    user: "Не назначен",
-    status: "Сделать",
-    id: +(localStorage.getItem("taskId") || 1),
+    id: +(localStorage.getItem("taskId") || 4),
   };
 };
 
-const formData = ref({ ...initFormData() });
+const formData = ref({ ...initFormColumnData() });
+
 
 watch(
-  () => props.task,
-  (oldTask: Task | undefined) => {
-    if (oldTask) {
-      formData.value = { ...oldTask };
+  () => props.editableColumn,
+  (oldColumn: Column | undefined) => {
+    if (oldColumn) {
+      formData.value = { ...oldColumn };
     }
   },
   { immediate: true }
 );
 
-const isNotFilledInput = ref({ name: false, desk: false });
-const editCreateTitle = props.task ? "Редактировать" : "Создать";
-const { createTask, editTask } = useTasks();
-
 const emit = defineEmits<{
-  (e: "close"): void;
+  (e: "closeFormColumn"): void;
 }>();
+
+const onClose = () => {
+  emit("closeFormColumn");
+};
 
 const isNotFilledForm = () => {
   if (!formData.value.name) {
-    isNotFilledInput.value.name = true;
-  }
-  if (!formData.value.desk) {
-    isNotFilledInput.value.desk = true;
-  }
-  if (!formData.value.desk || !formData.value.name) {
+    isNotFilledInput.value = true;
     return true;
   }
   return false;
 };
 
-const takeTask = () => {
+
+const takeColumn = () => {
   if (!isNotFilledForm()) {
-    if (props.task) {
-      editTask(formData.value, formData.value.status);
+    if (props.editableColumn) {
+      editColumn(formData.value);
     } else {
-      createTask(formData.value);
+      createColumn(formData.value);
     }
     onClose();
   }
 };
 
-const onClose = () => {
-  emit("close");
-};
 </script>
+
+
 
 <style scoped lang="scss">
 .form {
@@ -151,7 +118,7 @@ const onClose = () => {
     border-radius: 10px;
     padding: 20px;
     width: 600px;
-    height: 370px;
+    height: 200px;
     margin: -200px 0 0 -300px;
     background-color: white;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
@@ -177,8 +144,10 @@ const onClose = () => {
     padding-left: 10px;
     border: 1px solid black;
     border-radius: 5px;
-    min-height: 30px;
+    min-height: 40px;
     width: 98%;
+    margin-bottom: 45px;
+    font-size: 18px;
   }
 
   &__name--filled {
@@ -208,7 +177,6 @@ const onClose = () => {
     width: 100%;
     border-radius: 5px;
     min-height: 25px;
-    margin-bottom: 25px;
   }
 
   &__btn--wrapper {

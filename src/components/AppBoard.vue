@@ -3,11 +3,15 @@
     <h1 class="board__title">Kanban board</h1>
     <div class="board__btn--wrapper">
       <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
+      <button class="board__btn btn" @click="toggleFormColumn">
+        Добавить колонку
+      </button>
       <button class="board__btn btn" @click="clearLocal">Очистить</button>
     </div>
     <ul class="board__contents">
       <li v-for="column in boardColumns" class="column" :key="column.id">
         <AppColumns
+          @edited-column-title="editedColumn(column)"
           @edited-task="editedTask"
           :column="column"
           @drop-task="setTask"
@@ -18,20 +22,33 @@
   </div>
 
   <AppForm v-if="isOpenForm" :task="editableTask" @close="cancelForm" />
+  <AppFormColumn
+    v-if="isOpenFormColumn"
+    :editable-column="editableColumn"
+    @closeFormColumn="cancelFormColumn"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { Task, Column, ColumnId } from "../types";
+import { Task, Column } from "../types";
 import { useTasks } from "../composables/useTasks";
+import { useColumns } from "../composables/useColumns";
 
 import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
+import AppFormColumn from "./AppFormColumn.vue";
 
 const { tasks } = useTasks();
+const { boardColumns, boardColumnsInit } = useColumns();
 
 const isOpenForm = ref(false);
+const isOpenFormColumn = ref(false);
+
 let editableTask = ref<Task | undefined>(undefined);
+let editableColumn = ref<Column | undefined>(undefined);
+
+//костыль поправлю
 const taskDrop = ref<Task>({
   name: "string",
   desk: "string",
@@ -42,19 +59,23 @@ const taskDrop = ref<Task>({
   id: 888,
 });
 
-const boardColumns: Column[] = [
-  { name: "К выполнению", id: ColumnId.New },
-  { name: "В работе", id: ColumnId.inProgress },
-  { name: "Выполнено", id: ColumnId.Done },
-];
-
 const clearLocal = () => {
   localStorage.clear();
   tasks.value = [];
+  boardColumns.value = boardColumnsInit;
 };
 
 const toggleForm = () => {
   isOpenForm.value = !isOpenForm.value;
+};
+
+const toggleFormColumn = () => {
+  isOpenFormColumn.value = !isOpenFormColumn.value;
+};
+
+const editedColumn = (currentColumn: Column) => {
+  toggleFormColumn();
+  editableColumn.value = currentColumn;
 };
 
 const editedTask = (currentTask: Task) => {
@@ -66,6 +87,12 @@ const cancelForm = () => {
   toggleForm();
   editableTask.value = undefined;
 };
+
+const cancelFormColumn = () => {
+  toggleFormColumn();
+  editableColumn.value = undefined;
+};
+
 
 const setTask = (task: Task) => {
   taskDrop.value = task;
