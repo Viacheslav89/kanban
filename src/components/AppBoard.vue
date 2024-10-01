@@ -1,12 +1,18 @@
 <template>
   <div class="board">
-    <h1 class="board__title">Kanban board</h1>
-    <div class="board__btn--wrapper">
-      <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
-      <button class="board__btn btn" @click="toggleFormColumn">
-        Добавить колонку
-      </button>
-      <button class="board__btn btn" @click="clearLocal">Очистить</button>
+    <div class="board__header">
+      <div>
+        <h1 class="board__title">Kanban board</h1>
+        <div class="board__btn--wrapper">
+          <button class="board__btn btn" @click="toggleForm">
+            Создать задачу
+          </button>
+          <button class="board__btn btn" @click="toggleFormColumn">
+            Добавить колонку
+          </button>
+          <button class="board__btn btn" @click="clearLocal">Очистить</button>
+        </div>
+      </div>
     </div>
     <ul class="board__contents">
       <li v-for="column in boardColumns" class="column" :key="column.id">
@@ -19,6 +25,7 @@
         />
       </li>
     </ul>
+    <AppWeather />
   </div>
 
   <AppForm v-if="isOpenForm" :task="editableTask" @close="cancelForm" />
@@ -38,6 +45,8 @@ import { useColumns } from "../composables/useColumns";
 import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 import AppFormColumn from "./AppFormColumn.vue";
+import AppWeather from "./AppWeather.vue";
+
 
 const { tasks } = useTasks();
 const { boardColumns, boardColumnsInit } = useColumns();
@@ -93,7 +102,6 @@ const cancelFormColumn = () => {
   editableColumn.value = undefined;
 };
 
-
 const setTask = (task: Task) => {
   taskDrop.value = task;
 };
@@ -101,6 +109,11 @@ const setTask = (task: Task) => {
 
 <style scoped lang="scss">
 $color-border: rgb(48, 21, 21);
+
+.board__header {
+  display: flex;
+  justify-content: space-around;
+}
 
 .board {
   border-collapse: collapse;
