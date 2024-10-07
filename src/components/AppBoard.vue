@@ -22,10 +22,14 @@
           :column="column"
           @drop-task="setTask"
           :task="taskDrop"
+          :search-task-data="searchTaskCopy"
         />
       </li>
     </ul>
-    <AppWeather />
+    <div class="board__inputs--wrapper">
+      <AppFilter @search-task="writeDownSearch"/>
+      <AppWeather />
+    </div>
   </div>
 
   <AppForm v-if="isOpenForm" :task="editableTask" @close="cancelForm" />
@@ -46,7 +50,7 @@ import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 import AppFormColumn from "./AppFormColumn.vue";
 import AppWeather from "./AppWeather.vue";
-
+import AppFilter from "./AppFilter.vue";
 
 const { tasks } = useTasks();
 const { boardColumns, boardColumnsInit } = useColumns();
@@ -54,8 +58,9 @@ const { boardColumns, boardColumnsInit } = useColumns();
 const isOpenForm = ref(false);
 const isOpenFormColumn = ref(false);
 
-let editableTask = ref<Task | undefined>(undefined);
-let editableColumn = ref<Column | undefined>(undefined);
+const editableTask = ref<Task | undefined>(undefined);
+const editableColumn = ref<Column | undefined>(undefined);
+const searchTaskCopy = ref('');
 
 //костыль поправлю
 const taskDrop = ref<Task>({
@@ -73,6 +78,10 @@ const clearLocal = () => {
   tasks.value = [];
   boardColumns.value = boardColumnsInit;
 };
+
+const writeDownSearch = (searchTaskData: string) => {
+  searchTaskCopy.value = searchTaskData;
+}
 
 const toggleForm = () => {
   isOpenForm.value = !isOpenForm.value;
@@ -173,6 +182,11 @@ $color-border: rgb(48, 21, 21);
   &:hover {
     transform: scale(1.03);
   }
+}
+
+.board__inputs--wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 770px) {

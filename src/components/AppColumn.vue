@@ -41,9 +41,10 @@ import { useColumns } from "../composables/useColumns";
 import AppTask from "./AppTask.vue";
 import draggable from "vuedraggable";
 
-defineProps<{
+const props = defineProps<{
   column: Column;
   task: Task;
+  searchTaskData: string;
 }>();
 
 const { tasks, editTask } = useTasks();
@@ -56,7 +57,10 @@ const emit = defineEmits<{
 }>();
 
 const getTasksColumnStatus = (column: string): Task[] => {
-  return tasks.value.filter((task) => task.status === column);
+  if (!props.searchTaskData) {
+    return tasks.value.filter((task) => task.status === column);
+  }
+  return tasks.value.filter((task) => task.status === column && task.name.includes(props.searchTaskData));
 };
 
 const editColumnTitle = (columnId: number) => {

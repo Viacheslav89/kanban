@@ -129,12 +129,12 @@ $color-border: rgb(78, 67, 67);
 
   &__title {
     margin: 0;
-    word-break: break-all;
+    word-break: normal;
   }
 
   &__desk {
     padding-right: 10px;
-    word-break: break-all;
+    word-break: normal;
   }
 
   &__wrapper--btn {

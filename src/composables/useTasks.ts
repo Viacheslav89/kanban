@@ -25,8 +25,21 @@ export const useTasks = () => {
       ...formData,
       status: taskStatus,
     }
+    console.log(formData, taskStatus)
 
     tasks.value.splice(idxEditTask, 1, updateTask);
+    localStorage.setItem("tasks", JSON.stringify(tasks.value));
+  };
+
+
+  
+  const editStatusTasks = (newStatusTask: string, oldStatusTask: string) => {
+    for (let task of tasks.value) {
+      if (task.status === oldStatusTask) {
+        task.status = newStatusTask;
+      }
+    }
+
     localStorage.setItem("tasks", JSON.stringify(tasks.value));
   };
   
@@ -41,6 +54,7 @@ export const useTasks = () => {
     tasks,
     createTask,
     editTask,
+    editStatusTasks,
     deleteTask
   };
 };

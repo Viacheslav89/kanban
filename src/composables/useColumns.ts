@@ -1,5 +1,8 @@
 import { ref } from "vue";
 import { Column, ColumnId } from "../types";
+import { useTasks } from "./useTasks";
+
+const { editStatusTasks } = useTasks();
 
 const boardColumnsInit = [
   { name: "Сделать", id: ColumnId.New },
@@ -16,20 +19,16 @@ const boardColumns = ref<Array<Column>>(
 export const useColumns = () => {
   const createColumn = (formData: Column) => {
     const newColumn = {
-      name: formData.name,
+      name: `${formData.name[0].toUpperCase()}${formData.name.slice(1)}`,
       id: +(localStorage.getItem("columnId") || 3) + 1,
     };
-
-    if (newColumn.name.length) {
-      newColumn.name = `${formData.name[0].toUpperCase()}${formData.name.slice(
-        1
-      )}`;
-    }
 
     boardColumns.value.push(newColumn);
     localStorage.setItem("columns", JSON.stringify(boardColumns.value));
     localStorage.setItem("columnId", JSON.stringify(newColumn.id));
   };
+
+  
 
   const editColumn = (formData: Column) => {
     const idxEditColumn = boardColumns.value.findIndex(
@@ -37,18 +36,16 @@ export const useColumns = () => {
     );
 
     const newColumn = {
-      ...formData
+      name: `${formData.name[0].toUpperCase()}${formData.name.slice(1)}`,
+      id: formData.id,
     };
 
-    if (newColumn.name.length) {
-      newColumn.name = `${formData.name[0].toUpperCase()}${formData.name.slice(
-        1
-      )}`;
-    }
-
+    editStatusTasks(formData.name, boardColumns.value[idxEditColumn].name);
     boardColumns.value.splice(idxEditColumn, 1, newColumn);
     localStorage.setItem("columns", JSON.stringify(boardColumns.value));
   };
+
+
 
   const deleteColumn = (columnId: number) => {
     boardColumns.value = boardColumns.value.filter(
