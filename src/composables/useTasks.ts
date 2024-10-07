@@ -42,7 +42,7 @@ export const useTasks = () => {
 
     localStorage.setItem("tasks", JSON.stringify(tasks.value));
   };
-  
+
 
 
   const deleteTask = (taskId: number) => {

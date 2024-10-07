@@ -5,7 +5,7 @@
       <p class="weather__temperature" v-if="selectedCity !== 'Unknown city'">{{ temperature }}<span>&#xb0;</span></p>
     </div>
     <div class="weather__input--wrapper">
-        <input v-model="currentCity" type="text" class="weather__input"/>
+        <input v-model="currentCity" type="search" class="weather__input"/>
         <button class="weather__button" @click="checkWeather(currentCity)">&#128269;</button>
     </div>
   </div>

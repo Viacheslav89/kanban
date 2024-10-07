@@ -50,7 +50,7 @@ import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 import AppFormColumn from "./AppFormColumn.vue";
 import AppWeather from "./AppWeather.vue";
-import AppFilter from "./AppFilter.vue";
+import AppFilter from "./AppSearch.vue";
 
 const { tasks } = useTasks();
 const { boardColumns, boardColumnsInit } = useColumns();

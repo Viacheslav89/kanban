@@ -1,7 +1,7 @@
 <template>
   <div class="filter__wrapper">
     <h3 class="filter__title">Search</h3>
-    <input type="text" class="filter__input" v-model="searchTask"/>
+    <input type="search" class="filter__input" v-model="searchTask"/>
   </div>
 </template>
 
@@ -15,13 +15,29 @@ const emit = defineEmits<{
 }>();
 
 
-watch(searchTask, (count, prevCount) => {
-  if (count !== prevCount) {
-    emit("searchTask", searchTask.value);
+const sentEmitSearchTask = () => {
+  emit("searchTask", searchTask.value);
+};
+
+
+const debounce = (fn: any, ms: number) => {
+  let timeout: ReturnType<typeof setTimeout>;
+    
+    return function () {
+      const fnCall = () => { fn.apply(fn) };
+      clearTimeout(timeout)
+      timeout = setTimeout(fnCall, ms)
+    }
+  };
+  
+const sentEmitSearchTaskDebounce = debounce(sentEmitSearchTask, 800);
+
+
+watch(searchTask, (data, prevData) => {
+  if (data !== prevData) {
+    sentEmitSearchTaskDebounce();
   }
-})
-
-
+});
 
 </script>
 
