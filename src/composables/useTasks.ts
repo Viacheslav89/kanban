@@ -25,7 +25,6 @@ export const useTasks = () => {
       ...formData,
       status: taskStatus,
     }
-    console.log(formData, taskStatus)
 
     tasks.value.splice(idxEditTask, 1, updateTask);
     localStorage.setItem("tasks", JSON.stringify(tasks.value));

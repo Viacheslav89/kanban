@@ -19,24 +19,21 @@ const temperature = ref(0)
 
 const currentCity = ref('');
 const apiKey = "49dee601b64938272e7d8d6b4a796348";
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
+const apiUrl = "https://ru.api.openweathermap.org/data/2.5/weather?q=";
 
 
 async function checkWeather(city: string) {
     const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
-    console.log(response)
     if (response.status === 404) {
       selectedCity.value = 'Unknown city';
       temperature.value = 0;
       return;
     }
     const data = await response.json();
-    console.log(data)
     selectedCity.value = data.name;
     temperature.value = +((data.main.temp - 273.15).toFixed(1));
     currentCity.value = '';
 };
-
 checkWeather('Krasnodar');
 
 
