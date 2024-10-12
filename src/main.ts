@@ -1,4 +1,3 @@
-// import './assets/main.scss'
 import { createRouter, createWebHistory } from 'vue-router';
 import { createApp } from 'vue'
 
@@ -16,7 +15,7 @@ const router = createRouter({
     {
         name: 'Weather',
         path: '/kanban/weather/',
-        component: import ('./components/AppWeather.vue'),
+        component: () => import ('./components/AppWeather.vue'),
     }
 ]
 }) 

@@ -1,24 +1,26 @@
 <template>
-  <div class="weather__wrapper">
-    <div class="weather__desk">
-      <h3 class="weather__city">{{ selectedCity }}</h3>
-      <p class="weather__temperature" v-if="selectedCity !== 'Unknown city'">
-        {{ temperature }}<span>&#xb0;</span>
-      </p>
-    </div>
-    <div class="weather__input--wrapper">
-      <input v-model="currentCity" type="search" class="weather__input" />
-      <button class="weather__button" @click="checkWeather(currentCity)">
-        &#128269;
-      </button>
+  <AppNavigation />
+  <div class="weather">
+    <div class="weather__wrapper">
+      <div class="weather__desk">
+        <h3 class="weather__city">{{ selectedCity }}</h3>
+        <p class="weather__temperature" v-if="selectedCity !== 'Unknown city'">
+          {{ temperature }}<span>&#xb0;</span>
+        </p>
+      </div>
+      <div class="weather__input--wrapper">
+        <input v-model="currentCity" type="search" class="weather__input" />
+        <button class="weather__button" @click="checkWeather(currentCity)">
+          &#128269;
+        </button>
+      </div>
     </div>
   </div>
-  <!-- <RouterLink to="/kanban">Kanban</RouterLink> -->
-  <div @click="$router.push({ name: 'Kanban' })">Вернуться в канбан</div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import AppNavigation from "./AppNavigation.vue";
 
 const selectedCity = ref("Krasnodar");
 const temperature = ref(0);
@@ -43,9 +45,16 @@ checkWeather("Krasnodar");
 </script>
 
 <style scoped lang="scss">
+.weather {
+  background-color: rgb(148, 147, 147);
+  padding-bottom: 100%;
+}
+
 .weather__wrapper {
-  max-width: 350px;
-  padding: 0 45px 20px 20px;
+  max-width: 550px;
+  padding-top: 200px;
+  margin: 0 auto;
+
 }
 
 .weather__desk {
@@ -56,6 +65,7 @@ checkWeather("Krasnodar");
 .weather__city {
   margin: 0;
   margin: 40px 0 5px 0;
+  padding-bottom: 15px;
   font-size: 30px;
 }
 
@@ -65,14 +75,15 @@ checkWeather("Krasnodar");
 }
 
 .weather__button {
-  border-radius: 8px;
+  border-radius: 12px;
   margin-left: 5px;
 }
 
 .weather__input {
   font-size: 20px;
   width: 100%;
-  border-radius: 8px;
+  height: 40px;
+  border-radius: 12px;
   padding-left: 8px;
   color: grey;
 }

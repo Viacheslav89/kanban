@@ -1,18 +1,28 @@
 <template>
   <div class="board">
-    <div class="board__header">
-      <div>
-        <h1 class="board__title">Kanban board</h1>
-        <div class="board__btn--wrapper">
-          <button class="board__btn btn" @click="toggleForm">
-            Создать задачу
-          </button>
-          <button class="board__btn btn" @click="toggleFormColumn">
-            Добавить колонку
-          </button>
-          <button class="board__btn btn" @click="clearLocal">Очистить</button>
-        </div>
+
+    <AppNavigation />
+      <!-- <AppSearch @search-task="writeDownSearch" /> -->
+
+    <!-- <AppSearch @search-task="writeDownSearch" /> -->
+
+    <!-- <nav class="board__header">
+      <div class="board__nav--wrapper">
+        <p class="board__kanban--nav">Kanban board</p>
+        <p class="board__weather--nav" @click="$router.push({ name: 'Weather' })">Погода</p>
       </div>
+      <AppSearch @search-task="writeDownSearch" />
+    </nav> -->
+
+
+    <h1 class="board__title">Kanban board</h1>
+
+    <div class="board__btn--wrapper">
+      <button class="board__btn btn" @click="toggleForm">Создать задачу</button>
+      <button class="board__btn btn" @click="toggleFormColumn">
+        Добавить колонку
+      </button>
+      <button class="board__btn btn" @click="clearLocal">Очистить</button>
     </div>
     <ul class="board__contents">
       <li v-for="column in boardColumns" class="column" :key="column.id">
@@ -22,21 +32,16 @@
           :column="column"
           @drop-task="setTask"
           :task="taskDrop"
-          :search-task-data="searchTaskCopy"
+
         />
       </li>
     </ul>
     <div class="board__inputs--wrapper">
-      <AppSearch @search-task="writeDownSearch"/>
+      <!-- <AppSearch @search-task="writeDownSearch" /> -->
 
       <!-- <AppWeather @click="$router.push({name: 'Weather'})"/> -->
       <!-- <RouterLink to="/weather">Weather</RouterLink> -->
-      <div @click="$router.push({name: 'Weather'})">
-        Посмотреть погоду
-      </div>
-
-
-
+      <!-- <div @click="$router.push({ name: 'Weather' })">Посмотреть погоду</div> -->
     </div>
   </div>
 
@@ -57,8 +62,9 @@ import { useColumns } from "../composables/useColumns";
 import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 import AppFormColumn from "./AppFormColumn.vue";
-import AppWeather from "./AppWeather.vue";
-import AppSearch from "./AppSearch.vue";
+// import AppWeather from "./AppWeather.vue";
+// import AppSearch from "./AppSearch.vue";
+import AppNavigation from "./AppNavigation.vue";
 
 const { tasks } = useTasks();
 const { boardColumns, boardColumnsInit } = useColumns();
@@ -68,7 +74,7 @@ const isOpenFormColumn = ref(false);
 
 const editableTask = ref<Task | undefined>(undefined);
 const editableColumn = ref<Column | undefined>(undefined);
-const searchTaskCopy = ref('');
+
 
 //костыль поправлю
 const taskDrop = ref<Task>({
@@ -87,9 +93,9 @@ const clearLocal = () => {
   boardColumns.value = boardColumnsInit;
 };
 
-const writeDownSearch = (searchTaskData: string) => {
-  searchTaskCopy.value = searchTaskData;
-}
+// const writeDownSearch = (searchTaskData: string) => {
+//   searchTaskCopy.value = searchTaskData;
+// };
 
 const toggleForm = () => {
   isOpenForm.value = !isOpenForm.value;
@@ -127,22 +133,19 @@ const setTask = (task: Task) => {
 <style scoped lang="scss">
 $color-border: rgb(48, 21, 21);
 
-.board__header {
-  display: flex;
-  justify-content: space-around;
-}
-
 .board {
   border-collapse: collapse;
   margin: 0;
   padding: 0;
+  background-color: rgb(148, 147, 147);
+  padding-bottom: 100%;
 
   &__title {
     margin: 20px auto 10px auto;
     width: 250px;
     font-size: 38px;
     white-space: nowrap;
-    color: rgb(59, 51, 51);
+    color: rgb(36, 33, 33);
   }
 
   &__btn--wrapper {

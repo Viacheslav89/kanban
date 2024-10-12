@@ -10,7 +10,7 @@
   </div>
 
   <draggable
-    :list="getTasksColumnStatus(column.name)"
+    :list="getTasksColumnStatus(column.name, searchTaskData)"
     tag="ul"
     class="column__desk"
     group="tasks"
@@ -42,14 +42,14 @@ import { useColumns } from "../composables/useColumns";
 import AppTask from "./AppTask.vue";
 import draggable from "vuedraggable";
 
-const props = defineProps<{
+defineProps<{
   column: Column;
   task: Task;
-  searchTaskData: string;
 }>();
 
-const { tasks, editTask } = useTasks();
+const { searchTaskData, editTask, getTasksColumnStatus } = useTasks();
 const { deleteColumn } = useColumns();
+
 
 const emit = defineEmits<{
   (e: "editedColumnTitle", columnId: number): void;
@@ -57,12 +57,12 @@ const emit = defineEmits<{
   (e: "dropTask", column: Task): void;
 }>();
 
-const getTasksColumnStatus = (column: string): Task[] => {
-  if (!props.searchTaskData) {
-    return tasks.value.filter((task) => task.status === column);
-  }
-  return tasks.value.filter((task) => task.status === column && task.name.includes(props.searchTaskData));
-};
+// const getTasksColumnStatus = (column: string): Task[] => {
+//   if (!props.searchTaskData) {
+//     return tasks.value.filter((task) => task.status === column);
+//   }
+//   return tasks.value.filter((task) => task.status === column && task.name.includes(props.searchTaskData));
+// };
 
 const editColumnTitle = (columnId: number) => {
   emit("editedColumnTitle", columnId);
