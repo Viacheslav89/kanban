@@ -32,6 +32,7 @@
       </transition-group>
     </template>
   </draggable>
+
 </template>
 
 <script setup lang="ts">

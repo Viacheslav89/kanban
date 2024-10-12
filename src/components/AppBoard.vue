@@ -27,8 +27,16 @@
       </li>
     </ul>
     <div class="board__inputs--wrapper">
-      <AppFilter @search-task="writeDownSearch"/>
-      <AppWeather />
+      <AppSearch @search-task="writeDownSearch"/>
+
+      <!-- <AppWeather @click="$router.push({name: 'Weather'})"/> -->
+      <!-- <RouterLink to="/weather">Weather</RouterLink> -->
+      <div @click="$router.push({name: 'Weather'})">
+        Посмотреть погоду
+      </div>
+
+
+
     </div>
   </div>
 
@@ -50,7 +58,7 @@ import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 import AppFormColumn from "./AppFormColumn.vue";
 import AppWeather from "./AppWeather.vue";
-import AppFilter from "./AppSearch.vue";
+import AppSearch from "./AppSearch.vue";
 
 const { tasks } = useTasks();
 const { boardColumns, boardColumnsInit } = useColumns();
@@ -64,13 +72,13 @@ const searchTaskCopy = ref('');
 
 //костыль поправлю
 const taskDrop = ref<Task>({
-  name: "string",
-  desk: "string",
-  deadline: "string",
-  type: "strng",
-  user: "string",
-  status: "string",
-  id: 888,
+  name: "",
+  desk: "",
+  deadline: "",
+  type: "",
+  user: "",
+  status: "",
+  id: 0,
 });
 
 const clearLocal = () => {
