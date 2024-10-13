@@ -2,8 +2,10 @@
   <div class="column__header">
     <h2 class="column__title">{{ column.name }}</h2>
     <div class="column__wrapper--btn">
-      <button class="task__btn--edit btn" @click="editColumnTitle(column.id)">..</button>
-      <button class="task__btn--delete btn" @click="deleteColumn(column.id)">
+      <button class="column__btn--edit btn" @click="editColumnTitle(column.id)">
+        ..
+      </button>
+      <button class="column__btn--delete btn" @click="deleteColumn(column.id)">
         Х
       </button>
     </div>
@@ -32,7 +34,6 @@
       </transition-group>
     </template>
   </draggable>
-
 </template>
 
 <script setup lang="ts">
@@ -50,23 +51,15 @@ defineProps<{
 const { searchTaskData, editTask, getTasksColumnStatus } = useTasks();
 const { deleteColumn } = useColumns();
 
-
 const emit = defineEmits<{
   (e: "editedColumnTitle", columnId: number): void;
   (e: "editedTask", currentTask: Task): void;
   (e: "dropTask", column: Task): void;
 }>();
 
-// const getTasksColumnStatus = (column: string): Task[] => {
-//   if (!props.searchTaskData) {
-//     return tasks.value.filter((task) => task.status === column);
-//   }
-//   return tasks.value.filter((task) => task.status === column && task.name.includes(props.searchTaskData));
-// };
-
 const editColumnTitle = (columnId: number) => {
   emit("editedColumnTitle", columnId);
-}
+};
 
 const editedTask = (currentTask: Task) => {
   emit("editedTask", currentTask);
@@ -109,7 +102,6 @@ $color-border: rgb(78, 67, 67);
   cursor: pointer;
   border: 2px solid $color-border;
   height: 23px;
-  
 
   &:hover {
     transform: scale(1.03);
@@ -142,6 +134,11 @@ $color-border: rgb(78, 67, 67);
   .column__title {
     font-size: 12px;
     padding: 10px 2px 10px 2px;
+  }
+
+  .column__btn--edit {
+    width: 18px;
+    height: 18px;
   }
 }
 

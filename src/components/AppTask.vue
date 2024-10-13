@@ -37,14 +37,18 @@
 
     <p class="task__user">{{ task.user }}</p>
 
-    <select v-model="task.status" class="task__status" @change="editTask(task, task.status)">
-      <option v-for="column in boardColumns" 
+    <select
+      v-model="task.status"
+      class="task__status"
+      @change="editTask(task, task.status)"
+    >
+      <option
+        v-for="column in boardColumns"
         :key="column.id"
-        :value=column.name
-      > 
+        :value="column.name"
+      >
         {{ column.name }}
       </option>
-
     </select>
   </li>
 </template>
@@ -53,8 +57,6 @@
 import { Task, ColumnTitle } from "../types";
 import { useTasks } from "../composables/useTasks";
 import { useColumns } from "../composables/useColumns";
-
-
 
 defineProps<{
   task: Task;
@@ -91,7 +93,6 @@ const emit = defineEmits<{
 
 const { editTask, deleteTask } = useTasks();
 const { boardColumns } = useColumns();
-
 
 const editedTask = (currentTask: Task): void => {
   emit("editedTask", currentTask);
@@ -213,15 +214,15 @@ $color-border: rgb(78, 67, 67);
     padding-left: 8px;
 
     &__btn--delete {
-      width: 23px;
-      height: 23px;
+      width: 20px;
+      height: 20px;
       font-size: 9px;
       margin-left: 2px;
     }
 
     &__btn--change {
-      width: 23px;
-      height: 23px;
+      width: 20px;
+      height: 20px;
       font-size: 9px;
     }
 
@@ -270,13 +271,13 @@ $color-border: rgb(78, 67, 67);
     padding-left: 5px;
 
     &__btn--delete {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
 
     &__btn--change {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       font-size: 8px;
     }
 

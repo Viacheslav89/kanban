@@ -14,8 +14,6 @@
 
 <script setup lang="ts">
 import AppSearch from "./AppSearch.vue";
-
-
 </script>
 
 <style scoped>

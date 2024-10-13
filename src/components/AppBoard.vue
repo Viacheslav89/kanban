@@ -1,8 +1,7 @@
 <template>
   <div class="board">
-
     <AppNavigation />
-      <!-- <AppSearch @search-task="writeDownSearch" /> -->
+    <!-- <AppSearch @search-task="writeDownSearch" /> -->
 
     <!-- <AppSearch @search-task="writeDownSearch" /> -->
 
@@ -13,7 +12,6 @@
       </div>
       <AppSearch @search-task="writeDownSearch" />
     </nav> -->
-
 
     <h1 class="board__title">Kanban board</h1>
 
@@ -32,17 +30,9 @@
           :column="column"
           @drop-task="setTask"
           :task="taskDrop"
-
         />
       </li>
     </ul>
-    <div class="board__inputs--wrapper">
-      <!-- <AppSearch @search-task="writeDownSearch" /> -->
-
-      <!-- <AppWeather @click="$router.push({name: 'Weather'})"/> -->
-      <!-- <RouterLink to="/weather">Weather</RouterLink> -->
-      <!-- <div @click="$router.push({ name: 'Weather' })">Посмотреть погоду</div> -->
-    </div>
   </div>
 
   <AppForm v-if="isOpenForm" :task="editableTask" @close="cancelForm" />
@@ -62,8 +52,6 @@ import { useColumns } from "../composables/useColumns";
 import AppColumns from "./AppColumn.vue";
 import AppForm from "./AppForm.vue";
 import AppFormColumn from "./AppFormColumn.vue";
-// import AppWeather from "./AppWeather.vue";
-// import AppSearch from "./AppSearch.vue";
 import AppNavigation from "./AppNavigation.vue";
 
 const { tasks } = useTasks();
@@ -74,7 +62,6 @@ const isOpenFormColumn = ref(false);
 
 const editableTask = ref<Task | undefined>(undefined);
 const editableColumn = ref<Column | undefined>(undefined);
-
 
 //костыль поправлю
 const taskDrop = ref<Task>({
@@ -92,10 +79,6 @@ const clearLocal = () => {
   tasks.value = [];
   boardColumns.value = boardColumnsInit;
 };
-
-// const writeDownSearch = (searchTaskData: string) => {
-//   searchTaskCopy.value = searchTaskData;
-// };
 
 const toggleForm = () => {
   isOpenForm.value = !isOpenForm.value;

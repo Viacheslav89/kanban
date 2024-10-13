@@ -14,7 +14,7 @@ import { ref, watch } from "vue";
 import { useTasks } from "../composables/useTasks";
 
 const { searchTaskData } = useTasks();
-const searchTask = ref('');
+const searchTask = ref("");
 
 const changeSearchTask = () => {
   searchTaskData.value = searchTask.value;

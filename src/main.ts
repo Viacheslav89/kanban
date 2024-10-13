@@ -1,29 +1,53 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import { createApp } from 'vue'
+import { createRouter, createWebHistory } from "vue-router";
+import { createApp } from "vue";
 
-import App from './App.vue'
+import App from "./App.vue";
+import AppWeather from "./components/AppWeather.vue";
+import AppBoard from "./components/AppBoard.vue";
 
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes: [
+//       {
+//         name: "Home",
+//         path: "/",
+//         component: App,
+//       },
+//     {
+//       name: "Kanban",
+//       path: "/",
+//       component: AppBoard,
+//     },
+//     {
+//       name: "Weather",
+//       path: "/weather/",
+//       component: AppWeather,
+//     },
+//   ],
+// });
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-     {
-        name: 'Kanban',
-        path: '/kanban/',
-        component: () => import ('./components/AppBoard.vue'),
-    },
+  history: createWebHistory(),
+  routes: [
     {
-        name: 'Weather',
-        path: '/kanban/weather/',
-        component: () => import ('./components/AppWeather.vue'),
-    }
-]
-}) 
+      name: "Home",
+      path: "/",
+      redirect: "/kanban",
+      component: App,
+      children: [
+        {
+          name: "Kanban",
+          path: "/kanban/",
+          component: AppBoard,
+        },
+        {
+          name: "Weather",
+          path: "weather",
+          component: AppWeather,
+        },
+      ],
+    },
+  ],
+});
 
-
-
-
-createApp(App)
-.use(router)
-.mount('#app')
-
+createApp(App).use(router).mount("#app");

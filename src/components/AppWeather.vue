@@ -54,7 +54,6 @@ checkWeather("Krasnodar");
   max-width: 550px;
   padding-top: 200px;
   margin: 0 auto;
-
 }
 
 .weather__desk {

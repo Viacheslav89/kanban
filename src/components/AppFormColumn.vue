@@ -1,12 +1,9 @@
 <template>
   <div class="form">
     <div class="form__wrapper">
-
-
       <h2 class="form__title">Название колонки</h2>
 
       <p class="form__desc">
-
         <input
           class="form__input"
           v-model="formData.name"
@@ -23,20 +20,15 @@
         </button>
         <button class="form__btn btn" @click="onClose">Отменить</button>
       </div>
-
     </div>
     <div class="form__overlay"></div>
   </div>
 </template>
 
-
-
-
 <script setup lang="ts">
 import { Column } from "../types";
 import { useColumns } from "../composables/useColumns";
 import { ref, watch } from "vue";
-
 
 const props = defineProps<{
   editableColumn?: Column;
@@ -46,9 +38,7 @@ const editCreateTitle = props.editableColumn ? "Редактировать" : "�
 
 const isNotFilledInput = ref(false);
 
-
 const { createColumn, editColumn } = useColumns();
-
 
 const initFormColumnData = (): Column => {
   return {
@@ -59,7 +49,6 @@ const initFormColumnData = (): Column => {
 
 const formData = ref({ ...initFormColumnData() });
 
-
 watch(
   () => props.editableColumn,
   (oldColumn: Column | undefined) => {
@@ -67,7 +56,7 @@ watch(
       formData.value = { ...oldColumn };
     }
   },
-  
+
   { immediate: true }
 );
 
@@ -87,7 +76,6 @@ const isNotFilledForm = () => {
   return false;
 };
 
-
 const takeColumn = () => {
   if (!isNotFilledForm()) {
     if (props.editableColumn) {
@@ -98,10 +86,7 @@ const takeColumn = () => {
     onClose();
   }
 };
-
 </script>
-
-
 
 <style scoped lang="scss">
 .form {

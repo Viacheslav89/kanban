@@ -54,6 +54,7 @@ export const useColumns = () => {
     localStorage.setItem("columns", JSON.stringify(boardColumns.value));
   };
 
+  
   return {
     boardColumns,
     boardColumnsInit,
