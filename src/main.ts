@@ -5,27 +5,6 @@ import App from "./App.vue";
 import AppWeather from "./components/AppWeather.vue";
 import AppBoard from "./components/AppBoard.vue";
 
-// const router = createRouter({
-//   history: createWebHistory(),
-//   routes: [
-//       {
-//         name: "Home",
-//         path: "/",
-//         component: App,
-//       },
-//     {
-//       name: "Kanban",
-//       path: "/",
-//       component: AppBoard,
-//     },
-//     {
-//       name: "Weather",
-//       path: "/weather/",
-//       component: AppWeather,
-//     },
-//   ],
-// });
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [

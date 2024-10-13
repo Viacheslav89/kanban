@@ -140,11 +140,26 @@ $color-border: rgb(78, 67, 67);
     width: 18px;
     height: 18px;
   }
+
+  .column__btn--delete {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 @media screen and (max-width: 361px) {
   .column__title {
     font-size: 12px;
+  }
+
+  .column__btn--edit {
+    width: 15px;
+    height: 15px;
+  }
+
+  .column__btn--delete {
+    width: 15px;
+    height: 15px;
   }
 }
 </style>
