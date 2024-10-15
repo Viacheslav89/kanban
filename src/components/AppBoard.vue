@@ -1,18 +1,6 @@
 <template>
   <div class="board">
     <AppNavigation />
-    <!-- <AppSearch @search-task="writeDownSearch" /> -->
-
-    <!-- <AppSearch @search-task="writeDownSearch" /> -->
-
-    <!-- <nav class="board__header">
-      <div class="board__nav--wrapper">
-        <p class="board__kanban--nav">Kanban board</p>
-        <p class="board__weather--nav" @click="$router.push({ name: 'Weather' })">Погода</p>
-      </div>
-      <AppSearch @search-task="writeDownSearch" />
-    </nav> -->
-
     <h1 class="board__title">Kanban board</h1>
 
     <div class="board__btn--wrapper">
